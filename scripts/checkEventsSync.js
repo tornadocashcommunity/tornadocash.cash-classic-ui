@@ -3,10 +3,10 @@ import ABI from '../abis/Instance.abi.json'
 import { loadCachedEvents, getPastEvents } from './helpers'
 
 const EVENTS_PATH = './static/events/'
-const enabledChains = ['1', '56', '100', '137' ]
+const enabledChains = ['1', '56', '100', '137']
 
 async function main() {
-  for (let network in enabledChains) {
+  for (const network in enabledChains) {
     const netId = enabledChains[network]
     const config = networkConfig[`netId${netId}`]
     const { constants, tokens, nativeCurrency, deployedBlock } = config
@@ -46,7 +46,6 @@ async function main() {
       console.log('- Notes')
       console.log('cachedEvents count - ', notesCachedEvents.events.length)
       console.log('lastBlock - ', notesCachedEvents.lastBlock)
-
     }
   }
 }

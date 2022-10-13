@@ -2,16 +2,16 @@ import fs from 'fs'
 import Jszip from 'jszip'
 
 const compressionConfig = {
-  type: "nodebuffer",
-  compression: "DEFLATE",
+  type: 'nodebuffer',
+  compression: 'DEFLATE',
   compressionOptions: {
     level: 9
   }
 }
 
 const fileConfig = {
-    binary: true,
-    compression: "DEFLATE"
+  binary: true,
+  compression: 'DEFLATE'
 }
 
 export async function save(filePath) {
@@ -23,11 +23,12 @@ export async function save(filePath) {
     const data = fs.readFileSync(`${filePath}`)
 
     await jszip.file(`${fileName}`, data, fileConfig)
-    await jszip.generateNodeStream({
-      ...compressionConfig,
-      streamFiles: true
-    })
-    .pipe(fs.createWriteStream(`${filePath}.zip`))
+    await jszip
+      .generateNodeStream({
+        ...compressionConfig,
+        streamFiles: true
+      })
+      .pipe(fs.createWriteStream(`${filePath}.zip`))
 
     return true
   } catch (err) {
