@@ -1,7 +1,7 @@
 export const state = () => {
     return {
       message: '',
-      progress: '',
+      progress: -1,
       enabled: false,
       type: null
     }
@@ -19,7 +19,7 @@ export const state = () => {
     DISABLE(state) {
       state.message = ''
       state.enabled = false
-      state.progress = ''
+      state.progress = -1
       state.type = null
     }
   }
