@@ -32,7 +32,7 @@ export async function loadCachedEvents({ name, directory, deployedBlock }) {
 
       return {
         events,
-        lastBlock: events[events.length - 1].blockNumber
+        lastBlock:  events[events.length - 1].blockNumber
       }
     }
   } catch (err) {
