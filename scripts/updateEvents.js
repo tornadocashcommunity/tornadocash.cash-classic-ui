@@ -9,7 +9,7 @@ import { loadCachedEvents, getPastEvents } from './helpers'
 
 const EVENTS_PATH = './static/events/'
 const EVENTS = ['Deposit', 'Withdrawal']
-const enabledChains = ['1', '56', '100', '137' ]
+const enabledChains = ['1', '56', '100', '137']
 
 async function main(type, netId) {
   const { tokens, nativeCurrency, deployedBlock } = networkConfig[`netId${netId}`]
@@ -22,6 +22,7 @@ async function main(type, netId) {
       deployedBlock
     })
 
+    console.log('Update events for', instance, nativeCurrency.toUpperCase(), `${type.toLowerCase()}s`)
     console.log('cachedEvents count - ', cachedEvents.events.length)
     console.log('lastBlock - ', cachedEvents.lastBlock)
 
