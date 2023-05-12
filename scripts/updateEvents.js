@@ -5,11 +5,11 @@ import { uniqBy } from 'lodash'
 
 import networkConfig from '../networkConfig'
 import ABI from '../abis/Instance.abi.json'
+
 import { loadCachedEvents, getPastEvents } from './helpers'
 
 const EVENTS_PATH = './static/events/'
 const EVENTS = ['Deposit', 'Withdrawal']
-const enabledChains = ['1', '56', '100', '137']
 
 async function main(type, netId) {
   const { tokens, nativeCurrency, deployedBlock } = networkConfig[`netId${netId}`]
@@ -17,7 +17,7 @@ async function main(type, netId) {
 
   for (const [instance, _contract] of Object.entries(CONTRACTS)) {
     const cachedEvents = await loadCachedEvents({
-      name: `${type.toLowerCase()}s_${nativeCurrency}_${instance}.json`,
+      name: `${type.toLowerCase()}s_${netId}_${nativeCurrency}_${instance}.json`,
       directory: EVENTS_PATH,
       deployedBlock
     })
@@ -71,17 +71,24 @@ async function main(type, netId) {
     }
 
     const eventsJson = JSON.stringify(freshEvents, null, 2) + '\n'
-    fs.writeFileSync(`${EVENTS_PATH}${type.toLowerCase()}s_${nativeCurrency}_${instance}.json`, eventsJson)
+
+    fs.writeFileSync(
+      `${EVENTS_PATH}${type.toLowerCase()}s_${netId}_${nativeCurrency}_${instance}.json`,
+      eventsJson
+    )
   }
 }
 
 async function start() {
   const [, , , chain] = process.argv
+
+  const enabledChains = networkConfig.enabledChains
+
   if (!enabledChains.includes(chain)) {
     throw new Error(`Supported chain ids ${enabledChains.join(', ')}`)
   }
 
-  for await (const event of EVENTS) {
+  for (const event of EVENTS) {
     await main(event, chain)
   }
 }

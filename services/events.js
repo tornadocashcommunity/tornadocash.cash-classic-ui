@@ -7,8 +7,6 @@ import InstanceABI from '@/abis/Instance.abi.json'
 import { CONTRACT_INSTANCES, eventsType, httpConfig } from '@/constants'
 import { sleep, flattenNArray, formatEvents, capitalizeFirstLetter } from '@/utils'
 
-const supportedCaches = ['1', '56', '100', '137']
-
 let store
 if (process.browser) {
   window.onNuxtReady(({ $store }) => {
@@ -21,7 +19,7 @@ class EventService {
     this.idb = window.$nuxt.$indexedDB(netId)
 
     const { nativeCurrency } = networkConfig[`netId${netId}`]
-    const hasCache = supportedCaches.includes(netId.toString())
+    const hasCache = networkConfig.enabledChains.includes(netId.toString())
 
     this.netId = netId
     this.amount = amount
@@ -35,7 +33,7 @@ class EventService {
   }
 
   getInstanceName(type) {
-    return `${type}s_${this.currency}_${this.amount}`
+    return `${type}s_${this.netId}_${this.currency}_${this.amount}`
   }
 
   updateEventProgress(percentage, type) {

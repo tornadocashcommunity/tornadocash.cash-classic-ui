@@ -1,6 +1,7 @@
 import 'dotenv/config'
 
 import fs from 'fs'
+
 import BloomFilter from 'bloomfilter.js'
 import { MerkleTree } from 'fixed-merkle-tree'
 import { buildMimcSponge } from 'circomlibjs'
@@ -14,7 +15,7 @@ const TREES_PATH = './static/trees/'
 const EVENTS_PATH = './static/events/'
 
 const EVENTS = ['deposit']
-const enabledChains = ['1', '56', '100', '137' ]
+
 let mimcHash
 
 const trees = {
@@ -22,8 +23,8 @@ const trees = {
   LEVELS: 20 // const from contract
 }
 
-function getName({ path, type, instance, format = '.json', currName = 'eth' }) {
-  return `${path}${type.toLowerCase()}s_${currName}_${instance}${format}`
+function getName({ path, type, netId, instance, format = '.json', currName = 'eth' }) {
+  return `${path}${type.toLowerCase()}s_${netId}_${currName}_${instance}${format}`
 }
 
 function createTreeZip(netId) {
@@ -36,6 +37,7 @@ function createTreeZip(netId) {
         const baseFilename = getName({
           type,
           instance,
+          netId,
           format: '',
           path: TREES_PATH,
           currName: currencyName.toLowerCase()
@@ -45,6 +47,7 @@ function createTreeZip(netId) {
 
         treesFolder.forEach((fileName) => {
           fileName = `${TREES_PATH}${fileName}`
+
           const isInstanceFile = !fileName.includes('.gz') && fileName.includes(baseFilename)
 
           if (isInstanceFile) {
@@ -67,6 +70,7 @@ async function createTree(netId) {
         const filePath = getName({
           type,
           instance,
+          netId,
           format: '',
           path: TREES_PATH,
           currName: currencyName.toLowerCase()
@@ -75,7 +79,7 @@ async function createTree(netId) {
         console.log('createTree', { type, instance })
 
         const { events } = await loadCachedEvents({
-          name: `${type}s_${nativeCurrency}_${instance}.json`,
+          name: `${type}s_${netId}_${nativeCurrency}_${instance}.json`,
           directory: EVENTS_PATH,
           deployedBlock
         })
@@ -118,10 +122,12 @@ async function createTree(netId) {
           }, [])
 
           const sliceJson = JSON.stringify(slice, null, 2) + '\n'
+
           fs.writeFileSync(`${filePath}_slice${index + 1}.json`, sliceJson)
         })
 
         const bloomCache = bloom.serialize()
+
         fs.writeFileSync(`${filePath}_bloom.json`, bloomCache)
       }
     }
@@ -137,13 +143,18 @@ async function initMimc() {
 
 async function main() {
   const [, , , chain] = process.argv
+
+  const enabledChains = networkConfig.enabledChains
+
   if (!enabledChains.includes(chain)) {
     throw new Error(`Supported chain ids ${enabledChains.join(', ')}`)
   }
+
   await initMimc()
 
   await createTree(chain)
-  await createTreeZip(chain)
+
+  createTreeZip(chain)
 }
 
 main()

@@ -5,10 +5,10 @@ import { uniqBy } from 'lodash'
 
 import networkConfig from '../networkConfig'
 import ABI from '../abis/TornadoProxy.abi.json'
+
 import { getPastEvents, loadCachedEvents } from './helpers'
 
 const EVENTS_PATH = './static/events/'
-const enabledChains = ['1', '5', '56', '100', '137']
 
 async function saveEncryptedNote(netId) {
   const {
@@ -57,11 +57,15 @@ async function saveEncryptedNote(netId) {
   freshEvents = uniqBy(freshEvents, 'encryptedNote').sort((a, b) => b.blockNumber - a.blockNumber)
 
   const eventsJson = JSON.stringify(freshEvents, null, 2) + '\n'
+
   fs.writeFileSync(`${EVENTS_PATH}${name}`, eventsJson)
 }
 
 async function main() {
   const [, , , chain] = process.argv
+
+  const enabledChains = networkConfig.enabledChains
+
   if (!enabledChains.includes(chain)) {
     throw new Error(`Supported chain ids ${enabledChains.join(', ')}`)
   }

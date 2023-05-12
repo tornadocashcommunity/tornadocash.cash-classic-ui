@@ -1,14 +1,11 @@
 import fs from 'fs'
 import zlib from 'zlib'
 
-export async function save(filePath) {
-  const directories = filePath.split('/')
-  const fileName = directories[directories.length - 1]
-
+export function save(filePath) {
   try {
     const data = fs.readFileSync(`${filePath}`)
 
-    const payload = await zlib.deflateSync(data, {
+    const payload = zlib.deflateSync(data, {
       level: zlib.constants.Z_BEST_COMPRESSION,
       strategy: zlib.constants.Z_FILTERED
     })

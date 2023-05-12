@@ -1,4 +1,6 @@
 export default {
+  enabledChains: ['1', '10', '56', '100', '137', '42161'],
+  chainsWithEncryptedNotes: ['1', '5', '56', '100', '137'],
   netId1: {
     rpcCallRetryAttempt: 15,
     gasPrices: {
@@ -22,6 +24,10 @@ export default {
       secureRPC: {
         name: 'SecureRPC',
         url: 'https://api.securerpc.com/v1'
+      },
+      llamaRPC: {
+        name: 'llamarpc',
+        url: 'https://eth.llamarpc.com'
       }
     },
     multicall: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
@@ -297,6 +303,10 @@ export default {
     multicall: '0x842eC2c7D803033Edf55E478F461FC547Bc54EB2',
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     rpcUrls: {
+      oneRpc: {
+        name: '1rpc',
+        url: 'https://1rpc.io/arb'
+      },
       blockPi: {
         name: 'BlockPi',
         url: 'https://arbitrum.blockpi.network/v1/rpc/public'
