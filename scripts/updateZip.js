@@ -1,6 +1,6 @@
 import { uniqBy } from 'lodash'
 
-import networkConfig from '../networkConfig'
+import networkConfig, { enabledChains, chainsWithEncryptedNotes } from '../networkConfig'
 
 import { loadCachedEvents, save } from './helpers'
 
@@ -29,7 +29,7 @@ async function updateCommon(netId) {
 
       if (isSaved) {
         try {
-          await testCommon(netId, type, filename)
+          testCommon(netId, type, filename)
         } catch (err) {
           console.error(err.message)
         }
@@ -38,10 +38,10 @@ async function updateCommon(netId) {
   }
 }
 
-async function testCommon(netId, type, filename) {
+function testCommon(netId, type, filename) {
   const { deployedBlock } = networkConfig[`netId${netId}`]
 
-  const cachedEvents = await loadCachedEvents({
+  const cachedEvents = loadCachedEvents({
     name: filename,
     directory: EVENTS_PATH,
     deployedBlock
@@ -65,9 +65,6 @@ async function testCommon(netId, type, filename) {
 }
 
 async function main() {
-  const enabledChains = networkConfig.enabledChains
-  const chainsWithEncryptedNotes = networkConfig.chainsWithEncryptedNotes
-
   for (let i = 0; i < enabledChains.length; i++) {
     const netId = enabledChains[i]
 

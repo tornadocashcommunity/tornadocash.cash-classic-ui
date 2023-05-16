@@ -2,7 +2,7 @@ import Web3 from 'web3'
 
 import graph from '@/services/graph'
 import { download } from '@/store/snark'
-import networkConfig from '@/networkConfig'
+import networkConfig, { enabledChains } from '@/networkConfig'
 import InstanceABI from '@/abis/Instance.abi.json'
 import { CONTRACT_INSTANCES, eventsType, httpConfig } from '@/constants'
 import { sleep, flattenNArray, formatEvents, capitalizeFirstLetter } from '@/utils'
@@ -19,7 +19,7 @@ class EventService {
     this.idb = window.$nuxt.$indexedDB(netId)
 
     const { nativeCurrency } = networkConfig[`netId${netId}`]
-    const hasCache = networkConfig.enabledChains.includes(netId.toString())
+    const hasCache = enabledChains.includes(netId.toString())
 
     this.netId = netId
     this.amount = amount

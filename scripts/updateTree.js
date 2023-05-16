@@ -6,7 +6,7 @@ import BloomFilter from 'bloomfilter.js'
 import { MerkleTree } from 'fixed-merkle-tree'
 import { buildMimcSponge } from 'circomlibjs'
 
-import networkConfig from '../networkConfig'
+import networkConfig, { enabledChains } from '../networkConfig'
 
 import { loadCachedEvents, save } from './helpers'
 
@@ -143,8 +143,6 @@ async function initMimc() {
 
 async function main() {
   const [, , , chain] = process.argv
-
-  const enabledChains = networkConfig.enabledChains
 
   if (!enabledChains.includes(chain)) {
     throw new Error(`Supported chain ids ${enabledChains.join(', ')}`)

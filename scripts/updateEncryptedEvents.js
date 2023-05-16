@@ -3,7 +3,7 @@ import 'dotenv/config'
 import fs from 'fs'
 import { uniqBy } from 'lodash'
 
-import networkConfig from '../networkConfig'
+import networkConfig, { enabledChains } from '../networkConfig'
 import ABI from '../abis/TornadoProxy.abi.json'
 
 import { getPastEvents, loadCachedEvents } from './helpers'
@@ -63,8 +63,6 @@ async function saveEncryptedNote(netId) {
 
 async function main() {
   const [, , , chain] = process.argv
-
-  const enabledChains = networkConfig.enabledChains
 
   if (!enabledChains.includes(chain)) {
     throw new Error(`Supported chain ids ${enabledChains.join(', ')}`)

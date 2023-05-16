@@ -3,7 +3,7 @@ import 'dotenv/config'
 import fs from 'fs'
 import { uniqBy } from 'lodash'
 
-import networkConfig from '../networkConfig'
+import networkConfig, { enabledChains } from '../networkConfig'
 import ABI from '../abis/Instance.abi.json'
 
 import { loadCachedEvents, getPastEvents } from './helpers'
@@ -81,8 +81,6 @@ async function main(type, netId) {
 
 async function start() {
   const [, , , chain] = process.argv
-
-  const enabledChains = networkConfig.enabledChains
 
   if (!enabledChains.includes(chain)) {
     throw new Error(`Supported chain ids ${enabledChains.join(', ')}`)

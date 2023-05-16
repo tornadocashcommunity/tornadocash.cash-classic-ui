@@ -1,6 +1,6 @@
+export const enabledChains = ['1', '10', '56', '100', '137', '42161']
+export const chainsWithEncryptedNotes = ['1', '5', '56', '100', '137']
 export default {
-  enabledChains: ['1', '10', '56', '100', '137', '42161'],
-  chainsWithEncryptedNotes: ['1', '5', '56', '100', '137'],
   netId1: {
     rpcCallRetryAttempt: 15,
     gasPrices: {

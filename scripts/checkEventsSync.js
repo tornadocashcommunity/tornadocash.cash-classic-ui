@@ -1,11 +1,9 @@
-import networkConfig from '../networkConfig'
+import networkConfig, { enabledChains } from '../networkConfig'
 import { loadCachedEvents } from './helpers'
 
 const EVENTS_PATH = './static/events/'
 
 function main() {
-  const enabledChains = networkConfig.enabledChains
-
   for (const netId of enabledChains) {
     const config = networkConfig[`netId${netId}`]
     const { constants, tokens, nativeCurrency, deployedBlock } = config
@@ -13,7 +11,7 @@ function main() {
 
     console.log(`\n ::: ${netId} [${nativeCurrency.toUpperCase()}] :::`)
 
-    for (const [instance, ] of Object.entries(CONTRACTS)) {
+    for (const [instance] of Object.entries(CONTRACTS)) {
       console.log(`\n instanceDenomation - ${instance}`)
 
       const withdrawalCachedEvents = loadCachedEvents({
