@@ -31,6 +31,7 @@ export default {
       }
     },
     multicall: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
+    routerContract: '0xd90e2f925DA726b50C4Ed8D0Fb90Ad053324F31b',
     registryContract: '0x58E8dCC13BE9780fC42E8723D8EaD4CF46943dF2',
     echoContractAccount: '0x9B27DD5Bb15d42DC224FCD0B7caEbBe16161Df42',
     aggregatorContract: '0xE8F47A78A6D52D317D0D2FFFac56739fE14D1b49',

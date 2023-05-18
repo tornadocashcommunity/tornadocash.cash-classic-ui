@@ -11,18 +11,20 @@ import { loadCachedEvents, getPastEvents } from './helpers'
 const EVENTS_PATH = './static/events/'
 const EVENTS = ['Deposit', 'Withdrawal']
 
-async function main(type, netId) {
+async function main(type, netId, chosenToken) {
   const { tokens, nativeCurrency, deployedBlock } = networkConfig[`netId${netId}`]
-  const CONTRACTS = tokens[nativeCurrency].instanceAddress
+  const token = chosenToken !== undefined ? chosenToken : nativeCurrency
+
+  const CONTRACTS = tokens[token].instanceAddress
 
   for (const [instance, _contract] of Object.entries(CONTRACTS)) {
-    const cachedEvents = await loadCachedEvents({
-      name: `${type.toLowerCase()}s_${netId}_${nativeCurrency}_${instance}.json`,
+    const cachedEvents = loadCachedEvents({
+      name: `${type.toLowerCase()}s_${netId}_${token}_${instance}.json`,
       directory: EVENTS_PATH,
       deployedBlock
     })
 
-    console.log('Update events for', instance, nativeCurrency.toUpperCase(), `${type.toLowerCase()}s`)
+    console.log('Update events for', instance, token.toUpperCase(), `${type.toLowerCase()}s`)
     console.log('cachedEvents count - ', cachedEvents.events.length)
     console.log('lastBlock - ', cachedEvents.lastBlock)
 
@@ -72,22 +74,19 @@ async function main(type, netId) {
 
     const eventsJson = JSON.stringify(freshEvents, null, 2) + '\n'
 
-    fs.writeFileSync(
-      `${EVENTS_PATH}${type.toLowerCase()}s_${netId}_${nativeCurrency}_${instance}.json`,
-      eventsJson
-    )
+    fs.writeFileSync(`${EVENTS_PATH}${type.toLowerCase()}s_${netId}_${token}_${instance}.json`, eventsJson)
   }
 }
 
 async function start() {
-  const [, , , chain] = process.argv
+  const [, , , chain, chosenToken] = process.argv
 
   if (!enabledChains.includes(chain)) {
     throw new Error(`Supported chain ids ${enabledChains.join(', ')}`)
   }
 
   for (const event of EVENTS) {
-    await main(event, chain)
+    await main(event, chain, chosenToken)
   }
 }
 
