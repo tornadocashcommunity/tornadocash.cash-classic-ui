@@ -19,9 +19,9 @@ export default {
     networkName: 'Ethereum Mainnet',
     deployedBlock: 9116966,
     rpcUrls: {
-      secureRPC: {
-        name: 'SecureRPC',
-        url: 'https://api.securerpc.com/v1'
+      mevblockerRPC: {
+        name: 'MevblockerRPC',
+        url: 'https://rpc.mevblocker.io'
       }
     },
     multicall: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
@@ -111,7 +111,7 @@ export default {
     'torn.contract.tornadocash.eth': '0x77777FeDdddFfC19Ff86DB637967013e6C6A116C',
     'governance.contract.tornadocash.eth': '0x5efda50f22d34F262c29268506C5Fa42cB56A1Ce',
     'tornado-router.contract.tornadocash.eth': '0xd90e2f925DA726b50C4Ed8D0Fb90Ad053324F31b',
-    'staking-rewards.contract.tornadocash.eth': '0x2FC93484614a34f26F7970CBB94615bA109BB4bf'
+    'staking-rewards.contract.tornadocash.eth': '0x5B3f656C80E8ddb9ec01Dd9018815576E9238c29'
   },
   netId56: {
     rpcCallRetryAttempt: 15,
