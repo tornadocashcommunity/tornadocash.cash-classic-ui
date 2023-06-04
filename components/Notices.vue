@@ -20,7 +20,7 @@
       </i18n>
       <a
         v-if="notice.nova"
-        href="https://nova.tornadocash.eth.link"
+        href="https://nova.tornado.ws"
         target="_blank"
         rel="noopener noreferrer"
       >

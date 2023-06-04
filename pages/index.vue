@@ -73,7 +73,7 @@
         </template>
         <template v-slot:linkThree>
           <a
-            href="https://hackmd.io/@gozzy/tornado-cash-post-censorship#RPC"
+            href="https://docs.tornado.ws/general/guides/post-censorship#RPC"
             target="_blank"
             rel="noopener noreferrer"
           >
