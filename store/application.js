@@ -28,7 +28,7 @@ import { buildGroth16, download, getTornadoKeys } from './snark'
 
 let groth16
 
-const websnarkUtils = require('websnark/src/utils')
+const websnarkUtils = require('@tornado/websnark/src/utils')
 const { toWei, numberToHex, toBN, isAddress } = require('web3-utils')
 
 const getStatisticStore = (acc, { tokens }) => {
