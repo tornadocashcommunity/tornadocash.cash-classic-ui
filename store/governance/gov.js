@@ -705,14 +705,22 @@ const actions = {
               break
             case 13:
               text = text.replace(/\\\\n\\\\n(\s)?(\\n)?/g, '\\n')
+              break
+            // Fix invalid JSON in proposal 15: replace single quotes with double and add comma before description
+            case 15:
+              text = text.replaceAll(`'`, `"`)
+              text = text.replace('"description"', ',"description"')
+              break
+            case 16:
+              text = text.replace('#16: ', '')
+              break
+            // Add title to empty (without title and description) hacker proposal 21
+            case 21:
+              return {
+                title: 'Proposal #21: Restore Governance',
+                description: ''
+              }
           }
-        }
-
-        if (text.includes(`'`)) {
-          text = text.replaceAll(`'`, `"`)
-        }
-        if (text.includes(`" "`)) {
-          text = text.replace(`" "`, `", "`)
         }
 
         let title, description, rest
