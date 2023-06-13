@@ -19,6 +19,10 @@ export default {
     networkName: 'Ethereum Mainnet',
     deployedBlock: 9116966,
     rpcUrls: {
+      chainnodes: {
+        name: 'Tornado RPC',
+        url: 'https://mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
+      },
       mevblockerRPC: {
         name: 'MevblockerRPC',
         url: 'https://rpc.mevblocker.io'
@@ -135,17 +139,13 @@ export default {
     multicall: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     rpcUrls: {
+      chainnodes: {
+        name: 'Tornado RPC',
+        url: 'https://bsc-mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
+      },
       oneRPC: {
         name: '1RPC',
         url: 'https://1rpc.io/bnb'
-      },
-      blockPi: {
-        name: 'BlockPi',
-        url: 'https://bsc.blockpi.network/v1/rpc/public'
-      },
-      nodeReal: {
-        name: 'NodeReal',
-        url: 'https://bsc-mainnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3'
       }
     },
     tokens: {
@@ -190,9 +190,9 @@ export default {
     multicall: '0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507',
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     rpcUrls: {
-      polygonRpc: {
-        name: 'Polygon RPC',
-        url: 'https://polygon-rpc.com'
+      chainnodes: {
+        name: 'Tornado RPC',
+        url: 'https://polygon-mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
       },
       oneRpc: {
         name: '1RPC',
@@ -242,17 +242,13 @@ export default {
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     ovmGasPriceOracleContract: '0x420000000000000000000000000000000000000F',
     rpcUrls: {
-      blockPi: {
-        name: 'BlockPi',
-        url: 'https://optimism.blockpi.network/v1/rpc/public'
+      chainnodes: {
+        name: 'Tornado RPC',
+        url: 'https://optimism-mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
       },
       oneRpc: {
         name: '1RPC',
         url: 'https://1rpc.io/op'
-      },
-      Optimism: {
-        name: 'Optimism',
-        url: 'https://mainnet.optimism.io'
       }
     },
     tokens: {
@@ -297,9 +293,9 @@ export default {
     multicall: '0x842eC2c7D803033Edf55E478F461FC547Bc54EB2',
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     rpcUrls: {
-      blockPi: {
-        name: 'BlockPi',
-        url: 'https://arbitrum.blockpi.network/v1/rpc/public'
+      chainnodes: {
+        name: 'Tornado RPC',
+        url: 'https://arbitrum-one.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
       },
       Arbitrum: {
         name: 'Arbitrum RPC',
@@ -348,9 +344,9 @@ export default {
     multicall: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     rpcUrls: {
-      communityResolver: {
-        name: 'Community RPC Resolver',
-        url: 'https://development.tornadocash.community/rpc/v1'
+      chainnodes: {
+        name: 'Tornado RPC',
+        url: 'https://gnosis-mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
       },
       blockPi: {
         name: 'BlockPi',
@@ -399,17 +395,13 @@ export default {
     multicall: '0xe86e3989c74293Acc962156cd3F525c07b6a1B6e',
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     rpcUrls: {
+      communityRPC: {
+        name: 'Tornado RPC',
+        url: 'https://avalanche-rpc.tornado.ws/ext/bc/C/rpc'
+      },
       publicRpc1: {
         name: 'Avalanche RPC',
         url: 'https://api.avax.network/ext/bc/C/rpc'
-      },
-      blockPi: {
-        name: 'BlockPi',
-        url: 'https://avalanche.blockpi.network/v1/rpc/public'
-      },
-      publicRpc2: {
-        name: 'Avalanche Public PRC',
-        url: 'https://avalanche-evm.publicnode.com'
       },
       oneRpc: {
         name: '1RPC',
@@ -458,9 +450,9 @@ export default {
     echoContractAccount: '0x37e6859804b6499d1e4a86d70a5fdd5de6a0ac65',
     aggregatorContract: '0x8cb1436F64a3c33aD17bb42F94e255c4c0E871b2',
     rpcUrls: {
-      Infura: {
-        name: 'Infura',
-        url: 'https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'
+      chainnodes: {
+        name: 'Tornado RPC',
+        url: 'https://goerli.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
       }
     },
     tokens: {

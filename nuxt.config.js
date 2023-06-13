@@ -79,7 +79,7 @@ export default {
       {
         hid: 'og:url',
         property: 'og:url',
-        content: 'https://tornado.cash'
+        content: 'https://tornado.ws'
       },
       {
         hid: 'og:type',
@@ -89,7 +89,7 @@ export default {
       {
         hid: 'og:image',
         property: 'og:image',
-        content: 'https://tornado.cash/tw.png'
+        content: 'https://tornado.ws/tw.png'
       },
       {
         hid: 'description',
