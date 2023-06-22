@@ -7,7 +7,7 @@ import networkConfig from '../../networkConfig'
 export function download({ name, directory }) {
   const path = `${directory}${name}.gz`.toLowerCase()
 
-  const data = fs.readFileSync(path)
+  const data = fs.readFileSync(path, { flag: 'as+' })
   const content = zlib.inflateSync(data)
 
   return content

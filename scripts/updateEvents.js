@@ -112,8 +112,6 @@ async function start() {
 
   const args = { ...parseArg(netId, tokenOrEvent), ...parseArg(netId, eventOrToken) }
 
-  console.log('ARGS => ', args, netId)
-
   if (!enabledChains.includes(netId)) {
     throw new Error(`Supported chain ids ${enabledChains.join(', ')}`)
   }
