@@ -2109,6 +2109,27 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
+"@tornado/snarkjs@0.1.20-p2":
+  version "0.1.20-p2"
+  resolved "https://git.tornado.ws/api/packages/tornado-packages/npm/%40tornado%2Fsnarkjs/-/0.1.20-p2/snarkjs-0.1.20-p2.tgz#e25a1d4ca8305887202d02cb38077795108f1ec3"
+  integrity sha512-3E+tmJXtYj7GE8DZ13IBTgqkgplembU/qxYczIOxyxxEYBRAubccr9hFMrAjCaYBh/Rq94lDd5G4SE/l08IrNA==
+  dependencies:
+    big-integer "^1.6.43"
+    chai "^4.2.0"
+    escape-string-regexp "^1.0.5"
+    eslint "^5.16.0"
+    keccak "^2.0.0"
+    yargs "^12.0.5"
+
+"@tornado/websnark@0.0.4-p1":
+  version "0.0.4-p1"
+  resolved "https://git.tornado.ws/api/packages/tornado-packages/npm/%40tornado%2Fwebsnark/-/0.0.4-p1/websnark-0.0.4-p1.tgz#9a44a06a53d6931f85c8454cf31b7239c150ff46"
+  integrity sha512-sWQESVWarJsjjc0/t4G2eAy/Z1eZfzDG2V51jDzJBg0tQQkAjhBXsGIn+xdCIvPwn7bMvmDGxpicCzNQhieOJg==
+  dependencies:
+    "@tornado/snarkjs" "0.1.20-p2"
+    big-integer "1.6.42"
+    wasmbuilder "0.0.3"
+
 "@types/anymatch@*":
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@types/anymatch/-/anymatch-1.3.1.tgz#336badc1beecb9dacc38bea2cf32adf627a8421a"
@@ -5357,6 +5378,13 @@ create-require@^1.0.2, create-require@^1.1.0:
   resolved "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
 
+cross-env@7.0.3:
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-7.0.3.tgz#865264b29677dc015ba8418918965dd232fc54cf"
+  integrity sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==
+  dependencies:
+    cross-spawn "^7.0.1"
+
 cross-fetch@^2.1.0:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-2.2.5.tgz#afaf5729f3b6c78d89c9296115c9f142541a5705"
@@ -5389,6 +5417,15 @@ cross-spawn@^7.0.0:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.1.tgz#0ab56286e0f7c24e153d04cc2aa027e43a9a5d14"
   integrity sha512-u7v4o84SwFpD32Z8IIcPZ6z1/ie24O6RU3RbtL5Y316l3KuHVPx9ItBgWQ6VlfAFnRnTtMUrsQ9MUUTuEZjogg==
+  dependencies:
+    path-key "^3.1.0"
+    shebang-command "^2.0.0"
+    which "^2.0.1"
+
+cross-spawn@^7.0.1:
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6"
+  integrity sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==
   dependencies:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
@@ -14135,17 +14172,6 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
-"snarkjs@git+https://development.tornadocash.community/tornadocash/snarkjs.git#869181cfaf7526fe8972073d31655493a04326d5":
-  version "0.1.20"
-  resolved "git+https://development.tornadocash.community/tornadocash/snarkjs.git#869181cfaf7526fe8972073d31655493a04326d5"
-  dependencies:
-    big-integer "^1.6.43"
-    chai "^4.2.0"
-    escape-string-regexp "^1.0.5"
-    eslint "^5.16.0"
-    keccak "^2.0.0"
-    yargs "^12.0.5"
-
 sort-keys@^1.0.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/sort-keys/-/sort-keys-1.1.2.tgz#441b6d4d346798f1b4e49e8920adfba0e543f9ad"
@@ -15582,6 +15608,13 @@ walker@^1.0.7, walker@~1.0.5:
   dependencies:
     makeerror "1.0.x"
 
+wasmbuilder@0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/wasmbuilder/-/wasmbuilder-0.0.3.tgz#761766a87ef1f65d07d920dc671e691e2d98ff65"
+  integrity sha512-6+lhe2ong4zTG+XkqMduzXzNT1Lxiz9UpwgU4FJ+Ttx8zGeH3nOXROiyVqTRQr/l+NYw7KN5T009uAKaSOmMAQ==
+  dependencies:
+    big-integer "^1.6.43"
+
 wasmbuilder@^0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/wasmbuilder/-/wasmbuilder-0.0.12.tgz#a60cb25d6d11f314fe5ab3f4ee041ccb493cb78a"
@@ -16218,12 +16251,6 @@ webpackbar@^4.0.0:
     std-env "^2.2.1"
     text-table "^0.2.0"
     wrap-ansi "^6.0.0"
-
-"websnark@git+https://development.tornadocash.community/tornadocash/websnark.git#671762fab73f01771d0e7ebcf6b6a3123e193fb4":
-  version "0.0.4"
-  resolved "git+https://development.tornadocash.community/tornadocash/websnark.git#671762fab73f01771d0e7ebcf6b6a3123e193fb4"
-  dependencies:
-    big-integer "1.6.42"
 
 websocket@^1.0.32:
   version "1.0.34"

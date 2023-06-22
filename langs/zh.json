@@ -151,7 +151,7 @@
   "nullifierHash": "无效符",
   "verified": "已验证",
   "generatePdfReport": "生成 PDF 报告",
-  "compliancePrintWarning": "这本来源证明报告仅供参考的。 你应该使用Tornado的来源证明工具来确认报告 (https://tornadocash.eth.link/compliance) 的有效性，或者与可以算出和验证此处包含信息的任何其他密码学软件 (\"Tornado来源证明工具\") 一起使用。 报告中发现的信息与上述工具提供的信息之间存在任何差异，表明报告中的信息是不正确的{newline} 来源证明报告按 \"原样,\" 提供，不提供任何明示或暗示担保，包括但不限于对适销性，用途的适用性和非侵权专利的担保。 无论是出于合同要求、侵权或其他原因，由本来源证明报告引起与相关的任何索赔，损害或其他责任，Tornado.cash的作者概不负责。",
+  "compliancePrintWarning": "这本来源证明报告仅供参考的。 你应该使用Tornado的来源证明工具来确认报告 (https://tornado.ws/compliance) 的有效性，或者与可以算出和验证此处包含信息的任何其他密码学软件 (\"Tornado来源证明工具\") 一起使用。 报告中发现的信息与上述工具提供的信息之间存在任何差异，表明报告中的信息是不正确的{newline} 来源证明报告按 \"原样,\" 提供，不提供任何明示或暗示担保，包括但不限于对适销性，用途的适用性和非侵权专利的担保。 无论是出于合同要求、侵权或其他原因，由本来源证明报告引起与相关的任何索赔，损害或其他责任，Tornado.cash的作者概不负责。",
   "relayRequestFailed": "中继者 {relayerName} 无法使用，请选择其他中继者。",
   "selectProvider": "请选择钱包",
   "walletDoesNotSupported": "此钱包不受支持",

@@ -24,7 +24,7 @@
     >
       <i18n path="trustBanner.trustLess">
         <template v-slot:link>
-          <a href="https://tornado.cash/">{{ $t('trustBanner.link') }}</a>
+          <a href="https://tornado.ws/">{{ $t('trustBanner.link') }}</a>
         </template>
       </i18n>
     </b-notification>
@@ -73,7 +73,7 @@
         </template>
         <template v-slot:linkThree>
           <a
-            href="https://hackmd.io/@gozzy/tornado-cash-post-censorship#RPC"
+            href="https://docs.tornado.ws/general/guides/post-censorship#RPC"
             target="_blank"
             rel="noopener noreferrer"
           >

@@ -8,7 +8,7 @@ import networkConfig from '@/networkConfig'
 
 const { APP_ENS_NAME } = process.env
 
-const groth16 = require('websnark/src/groth16')
+const groth16 = require('@tornado/websnark/src/groth16')
 
 function buildGroth16() {
   const isMobile = detectMob()

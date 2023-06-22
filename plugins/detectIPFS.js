@@ -4,12 +4,8 @@ export default ({ store, isHMR, app }, inject) => {
 }
 function main() {
   const whiteListedDomains = [
-    'tornadocash.3th.li',
-    'tornadocash.3th.ws',
     'tornadocash.eth.link',
     'tornadocash.eth.limo',
-    'tornadocashcommunity.3th.li',
-    'tornadocashcommunity.3th.ws',
     'tornadocashcommunity.eth.link',
     'tornadocashcommunity.eth.limo'
   ]
