@@ -300,13 +300,13 @@ export default {
     multicall: '0x842eC2c7D803033Edf55E478F461FC547Bc54EB2',
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     rpcUrls: {
-      oneRpc: {
-        name: '1rpc',
-        url: 'https://1rpc.io/arb'
-      },
       chainnodes: {
         name: 'Tornado RPC',
         url: 'https://arbitrum-one.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
+      },
+      oneRpc: {
+        name: '1rpc',
+        url: 'https://1rpc.io/arb'
       },
       Arbitrum: {
         name: 'Arbitrum RPC',
