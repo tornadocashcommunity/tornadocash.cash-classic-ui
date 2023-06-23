@@ -78,7 +78,7 @@ async function createTree(netId) {
 
         console.log('createTree', { type, instance })
 
-        const { events } = await loadCachedEvents({
+        const { events } = loadCachedEvents({
           name: `${type}s_${netId}_${nativeCurrency}_${instance}.json`,
           directory: EVENTS_PATH,
           deployedBlock

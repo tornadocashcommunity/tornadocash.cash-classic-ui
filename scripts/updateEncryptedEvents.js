@@ -23,7 +23,7 @@ async function saveEncryptedNote(netId) {
   let encryptedEvents = []
   const name = `encrypted_notes_${netId}.json`
 
-  const cachedEvents = await loadCachedEvents({
+  const cachedEvents = loadCachedEvents({
     name,
     directory: EVENTS_PATH,
     deployedBlock: constants.ENCRYPTED_NOTES_BLOCK

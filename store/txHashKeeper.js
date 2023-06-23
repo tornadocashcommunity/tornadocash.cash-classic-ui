@@ -129,7 +129,7 @@ export const actions = {
     const instances = txs.reduce((acc, curr) => {
       const [, currency, amount, netId] = curr.prefix.split('-')
 
-      const name = `${amount}${currency}`
+      const name = `${netId}${amount}${currency}`
       if (!acc[name]) {
         const service = eventsInterface.getService({ netId, amount, currency })
         acc[name] = { currency, amount, netId, service }
@@ -161,7 +161,7 @@ export const actions = {
         txHash: tx.txHash,
         type: eventsType.DEPOSIT,
         commitment: tx.commitmentHex,
-        service: instances[`${amount}${currency}`]
+        service: instances[`${netId}${amount}${currency}`]
       })
     }
   },
@@ -213,7 +213,7 @@ export const actions = {
       if (!tx.isSpent) {
         const { currency, amount, netId, nullifierHex } = parseNote(`${tx.prefix}-${tx.note}`)
 
-        const isSpent = await instances[`${amount}${currency}`].service.findEvent({
+        const isSpent = await instances[`${netId}${amount}${currency}`].service.findEvent({
           eventName: 'nullifierHash',
           eventToFind: nullifierHex,
           type: eventsType.WITHDRAWAL
@@ -364,7 +364,7 @@ export const actions = {
       if (tx && !tx.isSpent) {
         const { currency, amount, netId, nullifierHex } = parseNote(`${tx.prefix}-${tx.note}`)
 
-        const isSpent = await instances[`${amount}${currency}`].service.findEvent({
+        const isSpent = await instances[`${netId}${amount}${currency}`].service.findEvent({
           eventName: 'nullifierHash',
           eventToFind: nullifierHex,
           type: eventsType.WITHDRAWAL

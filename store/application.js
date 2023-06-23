@@ -324,7 +324,7 @@ const actions = {
       lastBlock = await this.$indexedDB(netId).getFromIndex({
         indexName: 'name',
         storeName: 'lastEvents',
-        key: `${type}s_${currency}_${amount}`
+        key: `${type}s_${netId}_${currency}_${amount}`
       })
     }
 
@@ -661,7 +661,7 @@ const actions = {
     }
   },
   async buildTree({ dispatch }, { currency, amount, netId, commitmentHex }) {
-    const treeInstanceName = `${currency}_${amount}`
+    const treeInstanceName = `${netId}_${currency}_${amount}`
     const params = { netId, amount, currency }
 
     const treeService = treesInterface.getService({

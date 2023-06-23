@@ -186,7 +186,7 @@ class TreesFactory {
   instances = new Map()
 
   getService = (payload) => {
-    const instanceName = `${payload.currency}_${payload.amount}`
+    const instanceName = `${payload.netId}_${payload.currency}_${payload.amount}`
     if (this.instances.has(instanceName)) {
       return this.instances.get(instanceName)
     }
