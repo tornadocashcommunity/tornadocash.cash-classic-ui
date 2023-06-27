@@ -16,18 +16,19 @@ class MerkleTreeService {
     this.instanceName = instanceName
 
     this.idb = window.$nuxt.$indexedDB(netId)
+
     this.bloomService = bloomService({
       netId,
       amount,
       commitment,
       instanceName,
       fileFolder: 'trees',
-      fileName: `deposits_${currency}_${amount}_bloom.json.gz`
+      fileName: `deposits_${netId}_${currency}_${amount}_bloom.json.gz`
     })
   }
 
   getFileName(partNumber = trees.PARTS_COUNT) {
-    return `trees/deposits_${this.currency}_${this.amount}_slice${partNumber}.json.gz`
+    return `trees/deposits_${this.netId}_${this.currency}_${this.amount}_slice${partNumber}.json.gz`
   }
 
   createTree({ events }) {
@@ -185,7 +186,7 @@ class TreesFactory {
   instances = new Map()
 
   getService = (payload) => {
-    const instanceName = `${payload.currency}_${payload.amount}`
+    const instanceName = `${payload.netId}_${payload.currency}_${payload.amount}`
     if (this.instances.has(instanceName)) {
       return this.instances.get(instanceName)
     }

@@ -1,3 +1,5 @@
+export const enabledChains = ['1', '10', '56', '100', '137', '42161']
+export const chainsWithEncryptedNotes = ['1', '5', '56', '100', '137']
 export default {
   netId1: {
     rpcCallRetryAttempt: 15,
@@ -26,9 +28,14 @@ export default {
       mevblockerRPC: {
         name: 'MevblockerRPC',
         url: 'https://rpc.mevblocker.io'
+      },
+      llamaRPC: {
+        name: 'llamarpc',
+        url: 'https://eth.llamarpc.com'
       }
     },
     multicall: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
+    routerContract: '0xd90e2f925DA726b50C4Ed8D0Fb90Ad053324F31b',
     registryContract: '0x58E8dCC13BE9780fC42E8723D8EaD4CF46943dF2',
     echoContractAccount: '0x9B27DD5Bb15d42DC224FCD0B7caEbBe16161Df42',
     aggregatorContract: '0xE8F47A78A6D52D317D0D2FFFac56739fE14D1b49',
@@ -296,6 +303,10 @@ export default {
       chainnodes: {
         name: 'Tornado RPC',
         url: 'https://arbitrum-one.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
+      },
+      oneRpc: {
+        name: '1rpc',
+        url: 'https://1rpc.io/arb'
       },
       Arbitrum: {
         name: 'Arbitrum RPC',

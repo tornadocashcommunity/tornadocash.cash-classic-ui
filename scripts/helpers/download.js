@@ -4,25 +4,25 @@ import Web3 from 'web3'
 
 import networkConfig from '../../networkConfig'
 
-export async function download({ name, directory, contentType }) {
+export function download({ name, directory }) {
   const path = `${directory}${name}.gz`.toLowerCase()
 
-  const data = fs.readFileSync(path)
+  const data = fs.readFileSync(path, { flag: 'as+' })
   const content = zlib.inflateSync(data)
 
   return content
 }
 
-export async function loadCachedEvents({ name, directory, deployedBlock }) {
+export function loadCachedEvents({ name, directory, deployedBlock }) {
   try {
-    const module = await download({ contentType: 'string', directory, name })
+    const module = download({ contentType: 'string', directory, name })
 
     if (module) {
       const events = JSON.parse(module)
 
       return {
         events,
-        lastBlock:  events[events.length - 1].blockNumber
+        lastBlock: events[events.length - 1].blockNumber
       }
     }
   } catch (err) {
@@ -67,6 +67,7 @@ export async function getPastEvents({ type, fromBlock, netId, events, contractAt
     }
 
     console.log(`Fetching ${type}, chainId - ${netId}`, `chunksCount - ${chunksCount}`)
+
     for (let i = 0; i < chunksCount; i++)
       try {
         await new Promise((resolve) => setTimeout(resolve, 200))

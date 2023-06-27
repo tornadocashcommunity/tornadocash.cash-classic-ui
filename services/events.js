@@ -2,12 +2,10 @@ import Web3 from 'web3'
 
 import graph from '@/services/graph'
 import { download } from '@/store/snark'
-import networkConfig from '@/networkConfig'
+import networkConfig, { enabledChains } from '@/networkConfig'
 import InstanceABI from '@/abis/Instance.abi.json'
 import { CONTRACT_INSTANCES, eventsType, httpConfig } from '@/constants'
 import { sleep, flattenNArray, formatEvents, capitalizeFirstLetter } from '@/utils'
-
-const supportedCaches = ['1', '56', '100', '137']
 
 let store
 if (process.browser) {
@@ -21,7 +19,7 @@ class EventService {
     this.idb = window.$nuxt.$indexedDB(netId)
 
     const { nativeCurrency } = networkConfig[`netId${netId}`]
-    const hasCache = supportedCaches.includes(netId.toString())
+    const hasCache = enabledChains.includes(netId.toString())
 
     this.netId = netId
     this.amount = amount
@@ -35,7 +33,7 @@ class EventService {
   }
 
   getInstanceName(type) {
-    return `${type}s_${this.currency}_${this.amount}`
+    return `${type}s_${this.netId}_${this.currency}_${this.amount}`
   }
 
   updateEventProgress(percentage, type) {
@@ -466,7 +464,7 @@ class EventsFactory {
   }
 
   getService = (payload) => {
-    const instanceName = `${payload.currency}_${payload.amount}`
+    const instanceName = `${payload.netId}_${payload.currency}_${payload.amount}`
 
     if (this.instances.has(instanceName)) {
       return this.instances.get(instanceName)
