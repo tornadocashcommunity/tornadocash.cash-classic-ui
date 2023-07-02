@@ -402,6 +402,7 @@ const actions = {
       if (providerName === 'walletConnect') {
         await dispatch(listener, { provider })
       }
+
       const address = await this.$provider.initProvider(provider, {})
 
       if (!address) {
@@ -421,8 +422,8 @@ const actions = {
       await dispatch('updateAccountBalance', address)
 
       if (getters.isWalletConnect) {
-        if (provider.wc.peerMeta) {
-          commit('SET_WALLET_NAME', provider.wc.peerMeta.name)
+        if (provider.signer.client.name) {
+          commit('SET_WALLET_NAME', provider.signer.client.name)
         }
       }
 
@@ -457,33 +458,33 @@ const actions = {
     const { enabled } = rootState.loading
 
     try {
-      provider.wc.on('disconnect', (error, payload) => {
+      provider.on('disconnect', (error, payload) => {
         if (state.isReconnecting) {
           console.warn('Provider reconnect payload', { payload, error, isReconnecting: state.isReconnecting })
 
           if (enabled) {
             dispatch('loading/disable', {}, { root: true })
           }
+
           commit('SET_RECONNECTING', false)
-          return
-        }
+        } else {
+          const prevConnection = localStorage.getItem('walletconnectTimeStamp')
 
-        const prevConnection = localStorage.getItem('walletconnectTimeStamp')
+          const isPrevConnection = new BN(Date.now()).minus(prevConnection).isGreaterThanOrEqualTo(5000)
 
-        const isPrevConnection = new BN(Date.now()).minus(prevConnection).isGreaterThanOrEqualTo(5000)
+          if (isPrevConnection) {
+            console.warn('Provider disconnect payload', {
+              payload,
+              error,
+              isReconnecting: state.isReconnecting
+            })
 
-        if (isPrevConnection) {
-          console.warn('Provider disconnect payload', {
-            payload,
-            error,
-            isReconnecting: state.isReconnecting
-          })
+            dispatch('onLogOut')
+          }
 
-          dispatch('onLogOut')
-        }
-
-        if (enabled) {
-          dispatch('loading/disable', {}, { root: true })
+          if (enabled) {
+            dispatch('loading/disable', {}, { root: true })
+          }
         }
       })
     } catch (err) {
