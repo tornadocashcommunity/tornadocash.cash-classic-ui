@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import Web3 from 'web3'
-import { toHex, fromWei } from 'web3-utils'
-import { GasPriceOracle } from 'gas-price-oracle'
+import { toHex, toWei, fromWei, toBN } from 'web3-utils'
+import { GasPriceOracle } from '@tornado/gas-price-oracle'
 import { serialize } from '@ethersproject/transactions'
 
 import networkConfig from '@/networkConfig'
@@ -10,7 +10,7 @@ import { DUMMY_NONCE, DUMMY_WITHDRAW_DATA } from '@/constants/variables'
 
 export const state = () => {
   return {
-    gasParams: { gasPrice: 50 },
+    gasParams: { gasPrice: toWei(toBN(50), 'gwei') },
     l1Fee: '0'
   }
 }
@@ -23,6 +23,9 @@ export const getters = {
     return new GasPriceOracle({
       chainId: netId,
       defaultRpc: rootGetters['settings/currentRpc'].url,
+      minPriority: netId === 1 ? 2 : 0.05,
+      percentile: 5,
+      blocksCount: 20,
       defaultFallbackGasPrices: gasPrices
     })
   },
@@ -63,14 +66,25 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchGasPrice({ getters, dispatch, commit, rootGetters }) {
-    const netId = rootGetters['metamask/netId']
+  async fetchGasPrice({ getters, dispatch, commit, rootGetters, rootState }) {
     const { pollInterval } = rootGetters['metamask/networkConfig']
-
-    const isLegacy = netId === 137
+    const netId = Number(rootGetters['metamask/netId'])
+    const { url: rpcUrl } = rootState.settings[`netId${netId}`].rpc
 
     try {
-      const txGasParams = await getters.oracle.getTxGasParams({ isLegacy })
+      // Bump more for Polygon (MATIC) and for Goerli, because minPriority for this sidechains don't affect correctly
+      const bumpPercent = netId === 137 || netId === 5 ? 30 : 10
+      let txGasParams = {}
+      try {
+        // Use maxFeePerGas if eip1599 gas support by chain, use fast if legacy gas fetched
+        txGasParams = await getters.oracle.getTxGasParams({ legacySpeed: 'fast', bumpPercent }) // in wei
+      } catch (e) {
+        const web3 = new Web3(rpcUrl)
+        const wei = toBN(await web3.eth.getGasPrice())
+        const bumped = wei.add(wei.mul(toBN(bumpPercent)).div(toBN(100)))
+        txGasParams = { gasPrice: toHex(bumped) }
+      }
+
       commit('SAVE_GAS_PARAMS', txGasParams)
       await dispatch('fetchL1Fee')
     } catch (e) {
@@ -81,7 +95,7 @@ export const actions = {
   },
   setDefault({ commit, rootGetters }) {
     const { gasPrices } = rootGetters['metamask/networkConfig']
-    commit('SAVE_GAS_PARAMS', { gasPrice: gasPrices?.fast })
+    commit('SAVE_GAS_PARAMS', { gasPrice: toWei(gasPrices?.fast?.toFixed(9) || 0, 'gwei') })
   },
   async fetchL1Fee({ commit, getters, rootGetters }) {
     const netId = rootGetters['metamask/netId']
