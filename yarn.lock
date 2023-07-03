@@ -2109,6 +2109,15 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
+"@tornado/gas-price-oracle@^0.5.2-p1":
+  version "0.5.2-p1"
+  resolved "https://git.tornado.ws/api/packages/tornado-packages/npm/%40tornado%2Fgas-price-oracle/-/0.5.2-p1/gas-price-oracle-0.5.2-p1.tgz#310fed9b481383ffeaa4c1bd105c934a71a9513c"
+  integrity sha512-FbkhDQMD/aEBogdG6IdSXmlraG9LdEhaO+8aeNXZA0Tgp5P4PJ8pgZXxTK2rpVXBMpXrFiFg4IDkpRGrx67d4g==
+  dependencies:
+    axios "^0.21.2"
+    bignumber.js "^9.0.0"
+    node-cache "^5.1.2"
+
 "@tornado/snarkjs@0.1.20-p2":
   version "0.1.20-p2"
   resolved "https://git.tornado.ws/api/packages/tornado-packages/npm/%40tornado%2Fsnarkjs/-/0.1.20-p2/snarkjs-0.1.20-p2.tgz#e25a1d4ca8305887202d02cb38077795108f1ec3"
@@ -7800,14 +7809,6 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
-gas-price-oracle@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/gas-price-oracle/-/gas-price-oracle-0.5.0.tgz#b29f83c97bb4b091a08da7c10e2d1e5888bbade4"
-  integrity sha512-um0cmd9qxGkDHirV1HcrjQ4vedVxK7u+uMeJIjo2yUMYe6T46ihbMnRncF5tfP9deU5hPHJ8FvVRZY1Y/CKkLQ==
-  dependencies:
-    axios "^0.21.2"
-    bignumber.js "^9.0.0"
-
 gauge@~2.7.3:
   version "2.7.4"
   resolved "https://registry.yarnpkg.com/gauge/-/gauge-2.7.4.tgz#2c03405c7538c39d7eb37b317022e325fb018bf7"
@@ -11038,6 +11039,13 @@ node-cache@^4.1.1:
   dependencies:
     clone "2.x"
     lodash "^4.17.15"
+
+node-cache@^5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/node-cache/-/node-cache-5.1.2.tgz#f264dc2ccad0a780e76253a694e9fd0ed19c398d"
+  integrity sha512-t1QzWwnk4sjLWaQAS8CHgOJ+RAfmHpxFWmc36IWTiWHQfs0w5JDMBS1b1ZxQteo0vVVuWJvIUKHDkkeK7vIGCg==
+  dependencies:
+    clone "2.x"
 
 node-fetch@2.6.1, node-fetch@^2.6.1:
   version "2.6.1"
