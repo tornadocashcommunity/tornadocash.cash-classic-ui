@@ -63,7 +63,8 @@ const state = () => {
     withdrawType: 'relayer',
     ethToReceive: '20000000000000000',
     defaultEthToReceive: '20000000000000000',
-    withdrawNote: ''
+    withdrawNote: '',
+    relayerWithdrawGasLimit: null
   }
 }
 
@@ -104,6 +105,9 @@ const mutations = {
   },
   SET_WITHDRAW_NOTE(state, withdrawNote) {
     state.withdrawNote = withdrawNote
+  },
+  SET_RELAYER_WITHDRAW_GAS_LIMIT(state, { relayerWithdrawGasLimit }) {
+    this._vm.$set(state, 'relayerWithdrawGasLimit', relayerWithdrawGasLimit)
   }
 }
 
@@ -142,7 +146,7 @@ const getters = {
   currentContract: (state, getters) => (params) => {
     return getters.tornadoProxyContract(params)
   },
-  withdrawGas: (state, getters) => {
+  defaultWithdrawGas: (state, getters) => {
     let action = ACTION.WITHDRAW_WITH_EXTRA
 
     if (getters.hasEnabledLightProxy) {
@@ -162,7 +166,7 @@ const getters = {
   networkFee: (state, getters, rootState, rootGetters) => {
     const gasPrice = rootGetters['gasPrices/gasPrice']
 
-    const networkFee = toBN(gasPrice).mul(toBN(getters.withdrawGas))
+    const networkFee = toBN(gasPrice).mul(toBN(state.relayerWithdrawGasLimit || getters.defaultWithdrawGas))
 
     if (getters.isOptimismConnected) {
       const l1Fee = rootGetters['gasPrices/l1Fee']
@@ -636,6 +640,30 @@ const actions = {
       return false
     }
   },
+  async estimateRelayerWithdrawGasLimit(
+    { getters, rootState, commit },
+    { currency, amount, netId, proof, withdrawCallArgs }
+  ) {
+    const tornadoProxy = getters.tornadoProxyContract({ netId })
+    const tornadoInstance = getters.instanceContract({ currency, amount, netId })
+    const relayer = rootState.relayer.selectedRelayer.address
+
+    let gasLimit
+    try {
+      const fetchedGasLimit = await tornadoProxy.methods
+        .withdraw(tornadoInstance._address, proof, ...withdrawCallArgs)
+        .estimateGas({
+          from: relayer,
+          to: tornadoProxy._address,
+          value: withdrawCallArgs[5] || 0
+        })
+      gasLimit = Math.floor(fetchedGasLimit * 1.3)
+    } catch (e) {
+      gasLimit = getters.defaultWithdrawGas
+      console.error(`Cannot fetch gas limit for relayer withdrawal, using default: ${gasLimit}`)
+    }
+    commit('SET_RELAYER_WITHDRAW_GAS_LIMIT', { relayerWithdrawGasLimit: gasLimit })
+  },
   async checkSpentEventFromNullifier({ getters, dispatch }, parsedNote) {
     try {
       const isSpent = await dispatch('loadEvent', {
@@ -695,7 +723,7 @@ const actions = {
     return { tree, root }
   },
   async createSnarkProof(
-    { rootGetters, rootState, state, getters },
+    { rootGetters, rootState, state, getters, dispatch },
     { root, note, tree, recipient, leafIndex }
   ) {
     const { pathElements, pathIndices } = tree.path(leafIndex)
@@ -708,55 +736,71 @@ const actions = {
     let fee = BigInt(0)
     let refund = BigInt(0)
 
-    if (withdrawType === 'relayer') {
-      let totalRelayerFee = getters.relayerFee
-      relayer = BigInt(rootState.relayer.selectedRelayer.address)
-
-      if (note.currency !== nativeCurrency) {
-        refund = BigInt(state.ethToReceive.toString())
-        totalRelayerFee = totalRelayerFee.add(getters.ethToReceiveInToken)
+    async function calculateSnarkProof() {
+      const input = {
+        // public
+        fee,
+        root,
+        refund,
+        relayer,
+        recipient: BigInt(recipient),
+        nullifierHash: note.nullifierHash,
+        // private
+        pathIndices,
+        pathElements,
+        secret: note.secret,
+        nullifier: note.nullifier
       }
 
-      fee = BigInt(totalRelayerFee.toString())
+      const { circuit, provingKey } = await getTornadoKeys()
+
+      if (!groth16) {
+        groth16 = await buildGroth16()
+      }
+
+      console.log('Start generating SNARK proof', input)
+      console.time('SNARK proof time')
+      const proofData = await websnarkUtils.genWitnessAndProve(groth16, input, circuit, provingKey)
+      const { proof } = websnarkUtils.toSolidityInput(proofData)
+
+      const args = [
+        toFixedHex(input.root),
+        toFixedHex(input.nullifierHash),
+        toFixedHex(input.recipient, 20),
+        toFixedHex(input.relayer, 20),
+        toFixedHex(input.fee),
+        toFixedHex(input.refund)
+      ]
+      console.timeEnd('SNARK proof time')
+      return { args, proof }
     }
 
-    const input = {
-      // public
-      fee,
-      root,
-      refund,
-      relayer,
-      recipient: BigInt(recipient),
-      nullifierHash: note.nullifierHash,
-      // private
-      pathIndices,
-      pathElements,
-      secret: note.secret,
-      nullifier: note.nullifier
+    // Don't need to calculate or estimate relayer fee, so, return proof immediately
+    if (withdrawType !== 'relayer') return calculateSnarkProof()
+
+    relayer = BigInt(rootState.relayer.selectedRelayer.address)
+    const { proof: dummyProof, args: dummyArgs } = await calculateSnarkProof()
+    const { netId, amount, currency } = note
+    await dispatch('estimateRelayerWithdrawGasLimit', {
+      netId,
+      amount,
+      currency,
+      proof: dummyProof,
+      withdrawCallArgs: dummyArgs
+    })
+    let totalRelayerFee = getters.relayerFee
+
+    if (note.currency !== nativeCurrency) {
+      refund = BigInt(state.ethToReceive.toString())
+      totalRelayerFee = totalRelayerFee.add(getters.ethToReceiveInToken)
     }
 
-    const { circuit, provingKey } = await getTornadoKeys()
+    fee = BigInt(totalRelayerFee.toString())
 
-    if (!groth16) {
-      groth16 = await buildGroth16()
-    }
-
-    console.log('Start generating SNARK proof', input)
-    console.time('SNARK proof time')
-    const proofData = await websnarkUtils.genWitnessAndProve(groth16, input, circuit, provingKey)
-    const { proof } = websnarkUtils.toSolidityInput(proofData)
-
-    const args = [
-      toFixedHex(input.root),
-      toFixedHex(input.nullifierHash),
-      toFixedHex(input.recipient, 20),
-      toFixedHex(input.relayer, 20),
-      toFixedHex(input.fee),
-      toFixedHex(input.refund)
-    ]
-    return { args, proof }
+    // Recalculate proof with actual fee and refund
+    return calculateSnarkProof()
   },
-  async prepareWithdraw({ dispatch, getters, commit }, { note, recipient }) {
+  async prepareWithdraw({ dispatch, commit }, { note, recipient }) {
     commit('REMOVE_PROOF', { note })
     try {
       const parsedNote = parseNote(note)
@@ -776,7 +820,6 @@ const actions = {
         note: parsedNote,
         leafIndex: tree.indexOf(parsedNote.commitmentHex)
       })
-      console.timeEnd('SNARK proof time')
       commit('SAVE_PROOF', { proof, args, note })
     } catch (e) {
       console.error('prepareWithdraw', e)
