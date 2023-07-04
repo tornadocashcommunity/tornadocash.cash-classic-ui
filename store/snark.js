@@ -55,6 +55,7 @@ async function fetchFile({ url, name, getProgress, id, retryAttempt = 0 }) {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
+      timeout: 10_000,
       onDownloadProgress: (progressEvent) => {
         if (typeof getProgress === 'function') {
           const progress = Math.round((progressEvent.loaded * 100) / 9626311)
