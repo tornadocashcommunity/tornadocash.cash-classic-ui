@@ -2,7 +2,7 @@
 
 import BN from 'bignumber.js'
 import { EthereumProvider } from '@walletconnect/ethereum-provider'
-import networkConfig from '@/networkConfig'
+import networkConfig, { enabledChains } from '@/networkConfig'
 
 // Build an array of the first RPC URL for each network in a reduce
 const createRpcMapIterator = (accumulator, chainId) => {
@@ -19,7 +19,7 @@ const createRpcMapIterator = (accumulator, chainId) => {
 // const walletConnectInterval = 1000 // TODO: Check if we still need
 const reconnectInterval = 3600000 // 1 hour
 const supportedWallets = ['metamask', 'trust', 'imtoken', 'genericWeb3']
-const rpcMap = networkConfig.enabledChains.reduce(createRpcMapIterator, {})
+const rpcMap = enabledChains.reduce(createRpcMapIterator, {})
 
 const walletConnectConnector = async (chainId) => {
   try {
@@ -29,7 +29,7 @@ const walletConnectConnector = async (chainId) => {
       localStorage.removeItem('walletconnect')
     }
 
-    const optionalChains = networkConfig.enabledChains.filter((chain) => chain !== chainId)
+    const optionalChains = enabledChains.filter((chain) => chain !== chainId)
 
     const provider = await EthereumProvider.init({
       projectId: process.env.WC_PROJECT_ID,
