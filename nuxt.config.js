@@ -181,6 +181,19 @@ export default {
       config.module.rules.push({
         test: /\.bin$/,
         use: 'arraybuffer-loader'
+      },
+      {
+        test: /node_modules[\\/]@walletconnect/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+            plugins: [
+              '@babel/plugin-proposal-optional-chaining',
+              '@babel/plugin-proposal-nullish-coalescing-operator'
+            ]
+          }
+        }
       })
     },
     plugins: [
