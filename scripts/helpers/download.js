@@ -2,7 +2,7 @@ import fs from 'fs'
 import zlib from 'zlib'
 import Web3 from 'web3'
 
-import networkConfig from '../../networkConfig'
+import networkConfig, { blockSyncInterval } from '../../networkConfig'
 
 export function download({ name, directory }) {
   const path = `${directory}${name}.gz`.toLowerCase()
@@ -53,7 +53,7 @@ export async function getPastEvents({ type, fromBlock, netId, events, contractAt
   const blockDifference = Math.ceil(blockNumberBuffer - fromBlock)
 
   // eth_logs and eth_filter are restricted > 10,000 block queries
-  const blockRange = 10000
+  const blockRange = blockSyncInterval ? blockSyncInterval : 10_000
 
   let chunksCount = blockDifference === 0 ? 1 : Math.ceil(blockDifference / blockRange)
   const chunkSize = Math.ceil(blockDifference / chunksCount)
