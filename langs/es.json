@@ -1,7 +1,7 @@
 {
   "closeNotification": "Cerrar notificación",
-  "indexNotification": "Tornado.cash {link}. No obstante, todavía es un software experimental. Por favor, úselo teniendo en cuenta el riesgo y bajo su responsabilidad.",
-  "indexNotificationLinkText": "ha sido auditado",
+  "indexNotification": "Tornado Cash ahora está siendo mantenido por la comunidad, para obtener más información, visite {link}",
+  "indexNotificationLinkText": "tornadocash.social",
   "binanceInternalTxsNotification": "Por favor, no use direcciones a monederos Binance para retiros. Las transacciones internas (incluidos los retiros de Tornado.cash) actualmente no son compatibles con el Exchange de Binance. Si tiene problemas en la recepción de sus fondos, debería contactar con el soporte de Binance.",
   "deposit": "Depósito",
   "depositButton": "Depósito",

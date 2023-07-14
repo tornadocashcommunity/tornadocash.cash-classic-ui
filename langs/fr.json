@@ -1,7 +1,7 @@
 {
   "closeNotification": "Fermer notification",
-  "indexNotification": "Tornado.cash {link}. Cependant, il s'agit d'un logiciel en phase d'expérimentation. Veuillez l'utiliser à vos propres risques.",
-  "indexNotificationLinkText": "a été audité",
+  "indexNotification": "Tornado Cash est maintenant maintenu par la communauté, pour plus d'informations, visitez {link}",
+  "indexNotificationLinkText": "tornadocash.social",
   "binanceInternalTxsNotification": "Veuillez ne pas utiliser votre adresse de portefeuille Binance pour retirer vos fonds. Les transactions internes (tout comme celles effectuées par Tornado.Cash) ne sont pas supportées sur la plateforme d'échange Binance. Si vous n'avez pas reçu vos fonds sur Binance, veuillez prendre contact avec le support Binance.",
   "deposit": "Déposer",
   "depositButton": "Déposer",

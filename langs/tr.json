@@ -1,7 +1,7 @@
 {
   "closeNotification": "Bildirimi Kapat",
-  "indexNotification": "Tornado.cash {link} deneysel bir yazılımdır. Lütfen riskin farkında olarak kullanın.",
-  "indexNotificationLinkText": "denetimden geçmiştir ve",
+  "indexNotification": "Tornado Cash artık topluluk tarafından yönetiliyor, daha fazla bilgi için {link} adresini ziyaret edin.",
+  "indexNotificationLinkText": "tornadocash.social",
   "binanceInternalTxsNotification": "Lütfen para çekme işlemleri için Binance cüzdanına ait adresleri kullanmayın. Dahili işlemler (Tornado.cash çekimleri dahil) şu anda Binance Exchange’de desteklenmemektedir. Paranızın hesabınıza yansıması ile ilgili sorunlarınız varsa Binance destek ile iletişime geçmelisiniz.",
   "deposit": "Yatırma",
   "depositButton": "Yatırma",

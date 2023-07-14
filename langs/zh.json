@@ -1,7 +1,7 @@
 {
   "closeNotification": "关闭通知",
   "indexNotification": "Tornado Cash 现在由社区维护，有关更多信息，请访问 {link}",
-  "indexNotificationLinkText": "已通过安全审计",
+  "indexNotificationLinkText": "tornadocash.social",
   "binanceInternalTxsNotification": "请不要使用Binance钱包地址进行提款。Binance交易所目前不支持内部交易（包括Tornado.cash提款）。如果您有资金未收到的问题，您应该联系Binance支持。",
   "deposit": "存款",
   "depositButton": "存款",

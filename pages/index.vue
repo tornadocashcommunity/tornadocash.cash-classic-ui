@@ -40,7 +40,7 @@
     >
       <i18n path="indexNotification">
         <template v-slot:link>
-          <a href="https://tornadocash.community" target="_blank" rel="noopener noreferrer">
+          <a href="https://tornadocash.social" target="_blank" rel="noopener noreferrer">
             {{ $t('indexNotificationLinkText') }}
           </a>
         </template>
