@@ -1,6 +1,6 @@
 {
   "name": "tornadocash-classic-ui",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Private ethereum transactions",
   "author": "Tornado Cash Team",
   "scripts": {
@@ -23,7 +23,7 @@
     "@apollo/client": "^3.3.20",
     "@metamask/onboarding": "^1.0.0",
     "@nuxtjs/moment": "^1.6.0",
-    "@tornado/gas-price-oracle": "^0.5.2-p1",
+    "@tornado/gas-price-oracle": "^0.5.3",
     "@tornado/snarkjs": "0.1.20-p2",
     "@tornado/websnark": "0.0.4-p1",
     "@walletconnect/web3-provider": "1.7.8",

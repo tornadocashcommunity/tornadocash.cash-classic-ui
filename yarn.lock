@@ -2109,10 +2109,10 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@tornado/gas-price-oracle@^0.5.2-p1":
-  version "0.5.2-p1"
-  resolved "https://git.tornado.ws/api/packages/tornado-packages/npm/%40tornado%2Fgas-price-oracle/-/0.5.2-p1/gas-price-oracle-0.5.2-p1.tgz#310fed9b481383ffeaa4c1bd105c934a71a9513c"
-  integrity sha512-FbkhDQMD/aEBogdG6IdSXmlraG9LdEhaO+8aeNXZA0Tgp5P4PJ8pgZXxTK2rpVXBMpXrFiFg4IDkpRGrx67d4g==
+"@tornado/gas-price-oracle@^0.5.3":
+  version "0.5.3"
+  resolved "https://git.tornado.ws/api/packages/tornado-packages/npm/%40tornado%2Fgas-price-oracle/-/0.5.3/gas-price-oracle-0.5.3.tgz#fb5423dddee2f52edbc16174c5ddce90bea5413d"
+  integrity sha512-LpVfPiPIz3FOmJdiqJf/yoeO5n9/Pd5jgtdY+6hB9lNW0AiWhylhpScojICViS+3OL9QC8CoTlgr+kbfGeO9pQ==
   dependencies:
     axios "^0.21.2"
     bignumber.js "^9.0.0"
