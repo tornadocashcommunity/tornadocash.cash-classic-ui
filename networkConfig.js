@@ -78,9 +78,7 @@ export default {
       usdc: {
         instanceAddress: {
           '100': '0xd96f2B1c14Db8458374d9Aca76E26c3D18364307',
-          '1000': '0x4736dCf1b7A3d580672CcE6E7c65cd5cc9cFBa9D',
-          '10000': '',
-          '100000': ''
+          '1000': '0x4736dCf1b7A3d580672CcE6E7c65cd5cc9cFBa9D'
         },
         tokenAddress: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
         symbol: 'USDC',
@@ -90,9 +88,7 @@ export default {
       usdt: {
         instanceAddress: {
           '100': '0x169AD27A470D064DEDE56a2D3ff727986b15D52B',
-          '1000': '0x0836222F2B2B24A3F36f98668Ed8F0B38D1a872f',
-          '10000': '',
-          '100000': ''
+          '1000': '0x0836222F2B2B24A3F36f98668Ed8F0B38D1a872f'
         },
         tokenAddress: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
         symbol: 'USDT',
@@ -103,8 +99,7 @@ export default {
         instanceAddress: {
           '0.1': '0x178169B423a011fff22B9e3F3abeA13414dDD0F1',
           '1': '0x610B717796ad172B316836AC95a2ffad065CeaB4',
-          '10': '0xbB93e510BbCD0B7beb5A853875f9eC60275CF498',
-          '100': ''
+          '10': '0xbB93e510BbCD0B7beb5A853875f9eC60275CF498'
         },
         tokenAddress: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
         symbol: 'WBTC',
@@ -509,9 +504,7 @@ export default {
       usdc: {
         instanceAddress: {
           '100': '0x05E0b5B40B7b66098C2161A5EE11C5740A3A7C45',
-          '1000': '0x23173fE8b96A4Ad8d2E17fB83EA5dcccdCa1Ae52',
-          '10000': '',
-          '100000': ''
+          '1000': '0x23173fE8b96A4Ad8d2E17fB83EA5dcccdCa1Ae52'
         },
         tokenAddress: '0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C',
         symbol: 'USDC',
@@ -521,9 +514,7 @@ export default {
       usdt: {
         instanceAddress: {
           '100': '0x538Ab61E8A9fc1b2f93b3dd9011d662d89bE6FE6',
-          '1000': '0x94Be88213a387E992Dd87DE56950a9aef34b9448',
-          '10000': '',
-          '100000': ''
+          '1000': '0x94Be88213a387E992Dd87DE56950a9aef34b9448'
         },
         tokenAddress: '0xb7FC2023D96AEa94Ba0254AA5Aeb93141e4aad66',
         symbol: 'USDT',
@@ -534,8 +525,7 @@ export default {
         instanceAddress: {
           '0.1': '0x242654336ca2205714071898f67E254EB49ACdCe',
           '1': '0x776198CCF446DFa168347089d7338879273172cF',
-          '10': '0xeDC5d01286f99A066559F60a585406f3878a033e',
-          '100': ''
+          '10': '0xeDC5d01286f99A066559F60a585406f3878a033e'
         },
         tokenAddress: '0xC04B0d3107736C32e19F1c62b2aF67BE61d63a05',
         symbol: 'WBTC',
