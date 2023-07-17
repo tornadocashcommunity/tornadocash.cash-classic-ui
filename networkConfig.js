@@ -1,5 +1,5 @@
 export const blockSyncInterval = 10000
-export const enabledChains = ['1', '10', '56', '100', '137', '43114', '42161']
+export const enabledChains = ['1', '5', '10', '56', '100', '137', '43114', '42161']
 export const chainsWithEncryptedNotes = ['1', '5', '56', '100', '137']
 export default {
   netId1: {
@@ -410,6 +410,10 @@ export default {
       communityRPC: {
         name: 'Tornado RPC',
         url: 'https://avalanche-rpc.tornado.ws/ext/bc/C/rpc'
+      },
+      meowRPC: {
+        name: 'Meow RPC',
+        url: 'https://avax.meowrpc.com'
       },
       publicRpc1: {
         name: 'Avalanche RPC',
