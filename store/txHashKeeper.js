@@ -123,7 +123,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async getInstances({ rootGetters }, { txs }) {
+  async getInstances({ rootGetters, dispatch }, { txs }) {
     const eventsInterface = rootGetters['application/eventsInterface']
 
     const instances = txs.reduce((acc, curr) => {
@@ -143,6 +143,8 @@ export const actions = {
         Object.values(instances).map((instance) => instance.service.updateEvents(eventsType.WITHDRAWAL))
       )
     )
+
+    dispatch('loading/disable', {}, { root: true })
 
     return instances
   },
@@ -224,6 +226,8 @@ export const actions = {
         }
       }
     }
+
+    dispatch('loading/disable', {}, { root: true })
   },
   checkPendingTransaction({ getters, dispatch }) {
     const transactions = getters.txs
@@ -375,6 +379,8 @@ export const actions = {
         }
       }
     }
+
+    dispatch('loading/disable', {}, { root: true })
   },
   async updateDeposit(
     { getters, commit, dispatch, rootGetters },

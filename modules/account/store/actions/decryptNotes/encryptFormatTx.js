@@ -72,6 +72,8 @@ export async function _encryptFormatTx({ dispatch, getters, rootGetters }, { eve
     }
   }
 
+  dispatch('loading/disable', {}, { root: true })
+
   return formattingEvents(result)
 }
 
