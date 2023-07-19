@@ -2,7 +2,7 @@ import Web3 from 'web3'
 
 import graph from '@/services/graph'
 import { download } from '@/store/snark'
-import networkConfig, { enabledChains } from '@/networkConfig'
+import networkConfig, { enabledChains, blockSyncInterval } from '@/networkConfig'
 import InstanceABI from '@/abis/Instance.abi.json'
 import { CONTRACT_INSTANCES, eventsType, httpConfig } from '@/constants'
 import { sleep, flattenNArray, formatEvents, capitalizeFirstLetter } from '@/utils'
@@ -178,7 +178,7 @@ class EventService {
       return events
     }
 
-    const blockRange = 4950
+    const blockRange = Math.floor(blockSyncInterval / 2) - 1
     const fromBlock = deployedBlock
     const { blockDifference, currentBlockNumber } = await this.getBlocksDiff({ fromBlock })
 
@@ -244,7 +244,7 @@ class EventService {
     }
   }
 
-  getPastEvents({ fromBlock, toBlock, type }, shouldRetry = false, i = 0) {
+  getPastEvents({ fromBlock, toBlock, type }, shouldRetry = false, retries = 0) {
     return new Promise((resolve, reject) => {
       this.contract
         .getPastEvents(capitalizeFirstLetter(type), {
@@ -253,13 +253,23 @@ class EventService {
         })
         .then((events) => resolve(events))
         .catch((err) => {
-          i = i + 1
+          retries++
+
+          // If provider.getBlockNumber returned last block that isn't accepted (happened on Avalanche/Gnosis),
+          // get events to last accepted block
+          if (err.message.includes('after last accepted block')) {
+            const acceptedBlock = parseInt(err.message.split('after last accepted block ')[1])
+            toBlock = acceptedBlock
+            // Retries to 0, because it is not RPC error
+            retries = 0
+          }
+
           // maximum 5 second buffer for rate-limiting
           if (shouldRetry) {
-            const isRetry = i !== 5
+            const shouldRetryAgain = retries < 5
 
-            sleep(1000 * i).then(() =>
-              this.getPastEvents({ fromBlock, toBlock, type }, isRetry, i)
+            sleep(1000 * retries).then(() =>
+              this.getPastEvents({ fromBlock, toBlock, type }, shouldRetryAgain, retries)
                 .then((events) => resolve(events))
                 .catch((_) => resolve(undefined))
             )
@@ -324,19 +334,18 @@ class EventService {
   async getBatchEventsFromRpc({ fromBlock, type }) {
     try {
       const batchSize = 10
-      const blockRange = 10000
 
       let [events, failed] = [[], []]
       let lastBlock = fromBlock
 
       const { blockDifference, currentBlockNumber } = await this.getBlocksDiff({ fromBlock })
-      const batchDigest = blockDifference === 0 ? 1 : Math.ceil(blockDifference / blockRange)
+      const batchDigest = blockDifference === 0 ? 1 : Math.ceil(blockDifference / blockSyncInterval)
 
       const blockDenom = Math.ceil(blockDifference / batchDigest)
       const batchCount = Math.ceil(batchDigest / batchSize)
 
       if (fromBlock < currentBlockNumber) {
-        await this.updateEventProgress(0, type)
+        this.updateEventProgress(0, type)
 
         for (let batchIndex = 0; batchIndex < batchCount; batchIndex++) {
           const isLastBatch = batchIndex === batchCount - 1
@@ -365,7 +374,7 @@ class EventService {
               throw new Error('Failed to batch events')
             }
           }
-          await this.updateEventProgress(progressIndex / batchCount, type)
+          this.updateEventProgress(progressIndex / batchCount, type)
         }
 
         return {
@@ -383,11 +392,10 @@ class EventService {
   async getEventsFromRpc({ fromBlock, type }) {
     try {
       const { blockDifference } = await this.getBlocksDiff({ fromBlock })
-      const blockRange = 10000
 
       let events
 
-      if (blockDifference < blockRange) {
+      if (blockDifference < blockSyncInterval) {
         const rpcEvents = await this.getEventsPartFromRpc({ fromBlock, toBlock: 'latest', type })
         events = rpcEvents?.events || []
       } else {
