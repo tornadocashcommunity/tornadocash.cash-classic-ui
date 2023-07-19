@@ -1,6 +1,6 @@
 import { uniqBy } from 'lodash'
 
-import networkConfig, { enabledChains, chainsWithEncryptedNotes } from '../networkConfig'
+import networkConfig, { enabledChains } from '../networkConfig'
 
 import { loadCachedEvents, save } from './helpers'
 
@@ -68,7 +68,7 @@ async function main() {
   for (let i = 0; i < enabledChains.length; i++) {
     const netId = enabledChains[i]
 
-    if (netId === chainsWithEncryptedNotes[i]) updateEncrypted(netId)
+    updateEncrypted(netId)
 
     await updateCommon(netId)
   }
