@@ -23,7 +23,7 @@ export const getters = {
     return new GasPriceOracle({
       chainId: netId,
       defaultRpc: rootGetters['settings/currentRpc'].url,
-      minPriority: netId === 1 ? 2 : 0.05,
+      minPriority: netId === 1 || netId === 5 ? 2 : 0.05,
       percentile: 5,
       blocksCount: 20,
       defaultFallbackGasPrices: gasPrices
@@ -73,7 +73,20 @@ export const actions = {
 
     try {
       // Bump more for Polygon (MATIC) and for Goerli, because minPriority for this sidechains don't affect correctly
-      const bumpPercent = netId === 137 || netId === 5 ? 30 : 10
+      let bumpPercent
+      switch (netId) {
+        case 5:
+          bumpPercent = 100
+          break
+        case 137:
+        case 43114:
+        case 100:
+          bumpPercent = 30
+          break
+        default:
+          bumpPercent = 10
+      }
+
       let txGasParams = {}
       try {
         // Use maxFeePerGas if eip1599 gas support by chain, use fast if legacy gas fetched

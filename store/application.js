@@ -641,12 +641,14 @@ const actions = {
     }
   },
   async estimateRelayerWithdrawGasLimit(
-    { getters, rootState, commit },
+    { getters, rootState, rootGetters, commit },
     { currency, amount, netId, proof, withdrawCallArgs }
   ) {
     const tornadoProxy = getters.tornadoProxyContract({ netId })
     const tornadoInstance = getters.instanceContract({ currency, amount, netId })
     const relayer = rootState.relayer.selectedRelayer.address
+
+    const gasPrice = toBN(rootGetters['gasPrices/gasPrice'])
 
     let gasLimit
     try {
@@ -655,7 +657,9 @@ const actions = {
         .estimateGas({
           from: relayer,
           to: tornadoProxy._address,
-          value: withdrawCallArgs[5] || 0
+          value: withdrawCallArgs[5] || 0,
+          gasPrice,
+          gasLimit: getters.defaultWithdrawGas
         })
       gasLimit = Math.floor(fetchedGasLimit * 1.3)
     } catch (e) {
