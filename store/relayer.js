@@ -245,23 +245,13 @@ export const actions = {
       const getIsUpdated = () => {
         const relayerVersion = response.data.version
 
-        if (relayerVersion === '5.0.0') {
-          return true
-        }
+        const { major, prerelease } = parseSemanticVersion(relayerVersion)
 
-        const requiredMajor = hasEnabledLightProxy ? '5' : '4'
-        const { major, patch, prerelease } = parseSemanticVersion(relayerVersion)
+        const minimalMajorVersion = 5
+        const isMajorVersionUpdated = Number(major) >= minimalMajorVersion
+        if (prerelease && Number(major) === 5 && hasEnabledLightProxy) return false
 
-        const isUpdatedMajor = major === requiredMajor
-
-        if (isUpdatedMajor && prerelease) {
-          const minimalBeta = 11
-          const [betaVersion] = prerelease.split('.').slice(-1)
-          return Number(betaVersion) >= minimalBeta
-        }
-
-        const minimalPatch = 4
-        return isUpdatedMajor && Number(patch) >= minimalPatch
+        return isMajorVersionUpdated
       }
 
       if (!getIsUpdated()) {
