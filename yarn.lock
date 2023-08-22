@@ -2477,10 +2477,10 @@
   resolved "https://git.tornado.ws/api/packages/tornado-packages/npm/%40tornado%2Ftornado-config/-/2.0.0/tornado-config-2.0.0.tgz#52bbc179ecb2385f71b4d56e060b68e7dd6fb8b4"
   integrity sha512-7EkpWNfEm34VEOrbLnPpvd/aUJYnA1L+6/qx2fZ/AfmuJFkjSZ18Z4jvVGNY7ktKIhTu3/Tbze+9l3eNueCNIA==
 
-"@tornado/tornado-oracles@^0.3.0":
-  version "0.3.0"
-  resolved "https://git.tornado.ws/api/packages/tornado-packages/npm/%40tornado%2Ftornado-oracles/-/0.3.0/tornado-oracles-0.3.0.tgz#51dcb0f17662b463ce10c044162b926bcdbb74a8"
-  integrity sha512-zyQRr45eSu2Hl8567Zr3J5hkNOhCsL7CKlwp6MW/NRi13yupeQalV2qcSL6RB7uVt/X+1+Hc5O2xNLXxG2gyGw==
+"@tornado/tornado-oracles@1.0.0":
+  version "1.0.0"
+  resolved "https://git.tornado.ws/api/packages/tornado-packages/npm/%40tornado%2Ftornado-oracles/-/1.0.0/tornado-oracles-1.0.0.tgz#d4f1d76c1028aec5ba75fbd5abe0edfcf8e4e412"
+  integrity sha512-zshMYIX3MgRKqhWJ2UA71Y/Plo+ssFBB7L08XqSNCND5rPgeL0CPjyVFrqgruAb343vVcIpo2eaOUPtd+mzLSA==
   dependencies:
     "@tornado/gas-price-oracle" "^0.5.3"
     "@tornado/tornado-config" "^2.0.0"

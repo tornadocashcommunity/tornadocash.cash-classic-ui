@@ -153,7 +153,7 @@ const actions = {
   ) {
     try {
       const { ethAccount, netId } = state
-      const gasParams = rootGetters['gasPrices/getGasParams']
+      const gasParams = rootGetters['fees/getGasPriceParams']
 
       const callParams = {
         method,

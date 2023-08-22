@@ -163,18 +163,6 @@ const getters = {
 
     return ACTION_GAS[action]
   },
-  networkFee: (state, getters, rootState, rootGetters) => {
-    const gasPrice = rootGetters['gasPrices/gasPrice']
-
-    const networkFee = toBN(gasPrice).mul(toBN(state.relayerWithdrawGasLimit || getters.defaultWithdrawGas))
-
-    if (getters.isOptimismConnected) {
-      const l1Fee = rootGetters['gasPrices/l1Fee']
-      return networkFee.add(toBN(l1Fee))
-    }
-
-    return networkFee
-  },
   relayerFee: (state, getters, rootState, rootGetters) => {
     const { currency, amount } = rootState.application.selectedStatistic
     const { decimals } = rootGetters['metamask/networkConfig'].tokens[currency]
@@ -185,7 +173,7 @@ const getters = {
     const roundDecimal = 10 ** decimalsPoint
     const aroundFee = toBN(parseInt(fee * roundDecimal, 10))
     const tornadoServiceFee = total.mul(aroundFee).div(toBN(roundDecimal * 100))
-    const ethFee = getters.networkFee
+    const ethFee = rootState.fees.withdrawalNetworkFee
     switch (currency) {
       case nativeCurrency: {
         return ethFee.add(tornadoServiceFee)
@@ -648,7 +636,7 @@ const actions = {
     const tornadoInstance = getters.instanceContract({ currency, amount, netId })
     const relayer = rootState.relayer.selectedRelayer.address
 
-    const gasPrice = toBN(rootGetters['gasPrices/gasPrice'])
+    const gasPrice = toBN(rootGetters['fees/gasPrice'])
 
     let gasLimit
     try {
@@ -993,7 +981,7 @@ const actions = {
   },
   calculateEthToReceive({ commit, state, rootGetters }, { currency }) {
     const gasLimit = rootGetters['metamask/networkConfig'].tokens[currency].gasLimit
-    const gasPrice = toBN(rootGetters['gasPrices/gasPrice'])
+    const gasPrice = toBN(rootGetters['fees/gasPrice'])
 
     const ethToReceive = gasPrice
       .mul(toBN(gasLimit))

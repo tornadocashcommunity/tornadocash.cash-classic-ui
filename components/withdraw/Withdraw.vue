@@ -337,6 +337,7 @@ export default {
               })
             }
             this.$store.dispatch('application/setAndUpdateStatistic', { currency, amount: Number(amount) })
+            this.$store.dispatch('fees/calculateWithdrawalNetworkFee', {})
             if (currency !== this.nativeCurrency) {
               this.$store.dispatch('application/setDefaultEthToReceive', { currency })
             }
