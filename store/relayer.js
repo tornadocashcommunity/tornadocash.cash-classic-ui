@@ -240,21 +240,19 @@ export const actions = {
         throw new Error(this.app.i18n.t('canNotFetchStatusFromTheRelayer'))
       }
 
-      const hasEnabledLightProxy = rootGetters['application/hasEnabledLightProxy']
-
-      const getIsUpdated = () => {
+      const isRelayerUpdated = () => {
         const relayerVersion = response.data.version
 
-        const { major, prerelease } = parseSemanticVersion(relayerVersion)
+        const { major, patch, prerelease } = parseSemanticVersion(relayerVersion)
+        // Save backwards compatibility with V4 relayers for Ethereum Mainnet
+        const requiredMajor = netId === 1 ? '4' : '5'
+        const isUpdatedMajor = major === requiredMajor
 
-        const minimalMajorVersion = 5
-        const isMajorVersionUpdated = Number(major) >= minimalMajorVersion
-        if (prerelease && Number(major) === 5 && hasEnabledLightProxy) return false
-
-        return isMajorVersionUpdated
+        if (prerelease) return false
+        return isUpdatedMajor && Number(patch) >= 4 // Patch checking - also backwards compatibility
       }
 
-      if (!getIsUpdated()) {
+      if (!isRelayerUpdated()) {
         throw new Error('Outdated version.')
       }
 
