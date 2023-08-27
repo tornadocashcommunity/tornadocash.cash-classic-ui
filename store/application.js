@@ -979,18 +979,8 @@ const actions = {
       console.error(`Method loadWithdrawalData has error: ${e}`)
     }
   },
-  calculateEthToReceive({ commit, state, rootGetters }, { currency }) {
-    const gasLimit = rootGetters['metamask/networkConfig'].tokens[currency].gasLimit
-    const gasPrice = toBN(rootGetters['fees/gasPrice'])
-
-    const ethToReceive = gasPrice
-      .mul(toBN(gasLimit))
-      .mul(toBN(2))
-      .toString()
-    return ethToReceive
-  },
-  async setDefaultEthToReceive({ dispatch, commit }, { currency }) {
-    const ethToReceive = await dispatch('calculateEthToReceive', { currency })
+  async setDefaultEthToReceive({ commit, rootGetters }, { currency }) {
+    const ethToReceive = await rootGetters['fees/oracle'].calculateRefundInETH(currency.toLowerCase())
     commit('SAVE_ETH_TO_RECEIVE', { ethToReceive })
     commit('SAVE_DEFAULT_ETH_TO_RECEIVE', { ethToReceive })
   },

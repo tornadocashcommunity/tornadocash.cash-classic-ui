@@ -24,7 +24,7 @@
     "@metamask/onboarding": "^1.0.0",
     "@nuxtjs/moment": "^1.6.0",
     "@tornado/snarkjs": "0.1.20-p2",
-    "@tornado/tornado-oracles": "1.0.0",
+    "@tornado/tornado-oracles": "1.2",
     "@tornado/websnark": "0.0.4-p1",
     "@walletconnect/web3-provider": "1.7.8",
     "ajv": "^6.10.2",
