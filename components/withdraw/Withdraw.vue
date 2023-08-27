@@ -192,7 +192,7 @@ export default {
     ...mapState('relayer', ['isLoadingRelayers']),
     ...mapGetters('txHashKeeper', ['txExplorerUrl']),
     ...mapGetters('application', ['isNotEnoughTokens', 'selectedStatisticCurrency']),
-    ...mapGetters('metamask', ['networkConfig', 'netId', 'isLoggedIn', 'nativeCurrency']),
+    ...mapGetters('metamask', ['networkConfig', 'netId', 'isLoggedIn']),
     notEnoughDeposits() {
       if (this.depositsPast < 5) {
         return true
@@ -337,10 +337,7 @@ export default {
               })
             }
             this.$store.dispatch('application/setAndUpdateStatistic', { currency, amount: Number(amount) })
-            this.$store.dispatch('fees/calculateWithdrawalNetworkFee', {})
-            if (currency !== this.nativeCurrency) {
-              this.$store.dispatch('application/setDefaultEthToReceive', { currency })
-            }
+            this.$store.dispatch('fees/calculateWithdrawalFeeViaRelayer', {})
             this.$store.dispatch('loading/updateProgress', { progress: -1 })
             this.depositsPast = Number(depositsPast) <= 0 ? 0 : depositsPast
             this.depositTxHash = txHash

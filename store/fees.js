@@ -5,7 +5,8 @@ import { TornadoFeeOracleV4, TornadoFeeOracleV5 } from '@tornado/tornado-oracles
 export const state = () => {
   return {
     gasPriceParams: { gasPrice: toWei(toBN(50), 'gwei') },
-    withdrawalNetworkFee: toBN(0)
+    withdrawalNetworkFee: toBN(0),
+    withdrawalFeeViaRelayer: toBN(0)
   }
 }
 
@@ -38,6 +39,9 @@ export const mutations = {
   },
   SAVE_WITHDRAWAL_NETWORK_FEE(state, gasFee) {
     state.withdrawalNetworkFee = gasFee
+  },
+  SAVE_WITHDRAWAL_FEE_VIA_RELAYER(state, fee) {
+    state.withdrawalFeeViaRelayer = fee
   }
 }
 
@@ -47,8 +51,6 @@ export const actions = {
 
     try {
       const gasPriceParams = await getters.oracle.getGasPriceParams()
-      console.log(gasPriceParams)
-
       commit('SAVE_GAS_PARAMS', gasPriceParams)
     } catch (e) {
       console.error('fetchGasPrice', e)
@@ -64,5 +66,28 @@ export const actions = {
     const withdrawalGas = await getters.oracle.getGas(tx, 'user_withdrawal')
 
     commit('SAVE_WITHDRAWAL_NETWORK_FEE', toBN(withdrawalGas))
+  },
+  async calculateWithdrawalFeeViaRelayer({ dispatch, getters, commit, rootGetters, rootState }, { tx }) {
+    const feePercent = rootState.relayer.selectedRelayer.tornadoServiceFee
+    const { currency, amount } = rootState.application.selectedStatistic
+    const nativeCurrency = rootGetters['metamask/nativeCurrency']
+    const { decimals } = rootGetters['metamask/networkConfig'].tokens[currency]
+
+    await dispatch('calculateWithdrawalNetworkFee', { tx })
+    if (currency !== nativeCurrency)
+      await dispatch('application/setDefaultEthToReceive', { currency }, { root: true })
+
+    const withdrawalFee = await getters.oracle.calculateWithdrawalFeeViaRelayer(
+      'user_withdrawal',
+      tx,
+      feePercent,
+      currency.toLowerCase(),
+      amount,
+      decimals,
+      rootState.application.ethToReceive || 0,
+      rootState.price.prices[currency.toLowerCase()]
+    )
+
+    commit('SAVE_WITHDRAWAL_FEE_VIA_RELAYER', toBN(withdrawalFee))
   }
 }

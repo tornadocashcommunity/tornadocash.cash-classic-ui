@@ -9,7 +9,6 @@ import MulticallABI from '@/abis/Multicall.json'
 import InstanceABI from '@/abis/Instance.abi.json'
 import TornadoProxyABI from '@/abis/TornadoProxy.abi.json'
 
-import { ACTION, ACTION_GAS } from '@/constants/variables'
 import { graph, treesInterface, EventsFactory } from '@/services'
 
 import {
@@ -18,7 +17,6 @@ import {
   toFixedHex,
   saveAsFile,
   isEmptyArray,
-  decimalPlaces,
   parseHexNote,
   checkCommitments,
   buffPedersenHash
@@ -63,8 +61,7 @@ const state = () => {
     withdrawType: 'relayer',
     ethToReceive: '20000000000000000',
     defaultEthToReceive: '20000000000000000',
-    withdrawNote: '',
-    relayerWithdrawGasLimit: null
+    withdrawNote: ''
   }
 }
 
@@ -105,9 +102,6 @@ const mutations = {
   },
   SET_WITHDRAW_NOTE(state, withdrawNote) {
     state.withdrawNote = withdrawNote
-  },
-  SET_RELAYER_WITHDRAW_GAS_LIMIT(state, { relayerWithdrawGasLimit }) {
-    this._vm.$set(state, 'relayerWithdrawGasLimit', relayerWithdrawGasLimit)
   }
 }
 
@@ -146,42 +140,24 @@ const getters = {
   currentContract: (state, getters) => (params) => {
     return getters.tornadoProxyContract(params)
   },
-  defaultWithdrawGas: (state, getters) => {
-    let action = ACTION.WITHDRAW_WITH_EXTRA
+  relayerWithdrawalTxData: (state, getters, rootState, rootGetters) => ({
+    proof,
+    withdrawCallArgs,
+    currency,
+    amount
+  }) => {
+    const netId = rootGetters['metamask/netId']
+    const tornadoProxy = getters.tornadoProxyContract({ netId })
+    const tornadoInstance = getters.instanceContract({ currency, amount, netId })
 
-    if (getters.hasEnabledLightProxy) {
-      action = ACTION.WITHDRAW
-    }
+    const calldata = tornadoProxy.methods
+      .withdraw(tornadoInstance._address, proof, ...withdrawCallArgs)
+      .encodeABI()
 
-    if (getters.isOptimismConnected) {
-      action = ACTION.OP_WITHDRAW
-    }
-
-    if (getters.isArbitrumConnected) {
-      action = ACTION.ARB_WITHDRAW
-    }
-
-    return ACTION_GAS[action]
-  },
-  relayerFee: (state, getters, rootState, rootGetters) => {
-    const { currency, amount } = rootState.application.selectedStatistic
-    const { decimals } = rootGetters['metamask/networkConfig'].tokens[currency]
-    const nativeCurrency = rootGetters['metamask/nativeCurrency']
-    const total = toBN(rootGetters['token/fromDecimals'](amount.toString()))
-    const fee = rootState.relayer.selectedRelayer.tornadoServiceFee
-    const decimalsPoint = decimalPlaces(fee)
-    const roundDecimal = 10 ** decimalsPoint
-    const aroundFee = toBN(parseInt(fee * roundDecimal, 10))
-    const tornadoServiceFee = total.mul(aroundFee).div(toBN(roundDecimal * 100))
-    const ethFee = rootState.fees.withdrawalNetworkFee
-    switch (currency) {
-      case nativeCurrency: {
-        return ethFee.add(tornadoServiceFee)
-      }
-      default: {
-        const tokenFee = ethFee.mul(toBN(10 ** decimals)).div(toBN(rootState.price.prices[currency]))
-        return tokenFee.add(tornadoServiceFee)
-      }
+    return {
+      to: tornadoProxy._address,
+      data: calldata,
+      value: withdrawCallArgs[5] || 0
     }
   },
   ethToReceiveInToken: (state, getters, rootState, rootGetters) => {
@@ -196,7 +172,7 @@ const getters = {
     let total = toBN(rootGetters['token/fromDecimals'](amount.toString()))
 
     if (state.withdrawType === 'relayer') {
-      const relayerFee = getters.relayerFee
+      const relayerFee = rootState.fees.withdrawalFeeViaRelayer
       const nativeCurrency = rootGetters['metamask/nativeCurrency']
 
       if (currency === nativeCurrency) {
@@ -214,9 +190,8 @@ const getters = {
     const { decimals } = rootGetters['metamask/networkConfig'].tokens[currency]
     const total = toBN(rootGetters['token/fromDecimals'](amount.toString()))
     const price = rootState.price.prices[currency]
-    const relayerFee = getters.relayerFee
     return total
-      .sub(relayerFee)
+      .sub(rootState.fees.withdrawalFeeViaRelayer)
       .mul(toBN(price))
       .div(toBN(10 ** decimals))
   },
@@ -628,34 +603,6 @@ const actions = {
       return false
     }
   },
-  async estimateRelayerWithdrawGasLimit(
-    { getters, rootState, rootGetters, commit },
-    { currency, amount, netId, proof, withdrawCallArgs }
-  ) {
-    const tornadoProxy = getters.tornadoProxyContract({ netId })
-    const tornadoInstance = getters.instanceContract({ currency, amount, netId })
-    const relayer = rootState.relayer.selectedRelayer.address
-
-    const gasPrice = toBN(rootGetters['fees/gasPrice'])
-
-    let gasLimit
-    try {
-      const fetchedGasLimit = await tornadoProxy.methods
-        .withdraw(tornadoInstance._address, proof, ...withdrawCallArgs)
-        .estimateGas({
-          from: relayer,
-          to: tornadoProxy._address,
-          value: withdrawCallArgs[5] || 0,
-          gasPrice,
-          gasLimit: getters.defaultWithdrawGas
-        })
-      gasLimit = Math.floor(fetchedGasLimit * 1.3)
-    } catch (e) {
-      gasLimit = getters.defaultWithdrawGas
-      console.error(`Cannot fetch gas limit for relayer withdrawal, using default: ${gasLimit}`)
-    }
-    commit('SET_RELAYER_WITHDRAW_GAS_LIMIT', { relayerWithdrawGasLimit: gasLimit })
-  },
   async checkSpentEventFromNullifier({ getters, dispatch }, parsedNote) {
     try {
       const isSpent = await dispatch('loadEvent', {
@@ -724,7 +671,7 @@ const actions = {
     const nativeCurrency = rootGetters['metamask/nativeCurrency']
     const withdrawType = state.withdrawType
 
-    let relayer = BigInt(recipient)
+    const relayer = BigInt(rootState.relayer.selectedRelayer.address)
     let fee = BigInt(0)
     let refund = BigInt(0)
 
@@ -770,24 +717,21 @@ const actions = {
     // Don't need to calculate or estimate relayer fee, so, return proof immediately
     if (withdrawType !== 'relayer') return calculateSnarkProof()
 
-    relayer = BigInt(rootState.relayer.selectedRelayer.address)
-    const { proof: dummyProof, args: dummyArgs } = await calculateSnarkProof()
-    const { netId, amount, currency } = note
-    await dispatch('estimateRelayerWithdrawGasLimit', {
-      netId,
-      amount,
-      currency,
+    fee = BigInt(rootState.fees.withdrawalFeeViaRelayer)
+    const naiveProof = await calculateSnarkProof()
+    if (Number(note.netId) === 1) return naiveProof // Don't need to smart-estimate fee if we use V4 withdrawal
+
+    const { proof: dummyProof, args: dummyArgs } = naiveProof
+    const withdrawalTx = getters.relayerWithdrawalTxData({
       proof: dummyProof,
-      withdrawCallArgs: dummyArgs
+      withdrawCallArgs: dummyArgs,
+      amount: note.amount,
+      currency: note.currency
     })
-    let totalRelayerFee = getters.relayerFee
+    if (note.currency !== nativeCurrency) refund = BigInt(state.ethToReceive.toString())
 
-    if (note.currency !== nativeCurrency) {
-      refund = BigInt(state.ethToReceive.toString())
-      totalRelayerFee = totalRelayerFee.add(getters.ethToReceiveInToken)
-    }
-
-    fee = BigInt(totalRelayerFee.toString())
+    await dispatch('fees/calculateWithdrawalFeeViaRelayer', { tx: withdrawalTx }, { root: true })
+    fee = BigInt(rootState.fees.withdrawalFeeViaRelayer)
 
     // Recalculate proof with actual fee and refund
     return calculateSnarkProof()

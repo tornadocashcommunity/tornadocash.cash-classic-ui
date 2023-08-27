@@ -71,7 +71,7 @@ export default {
   },
   computed: {
     ...mapState('application', ['selectedStatistic']),
-    ...mapState('fees', ['withdrawalNetworkFee']),
+    ...mapState('fees', ['withdrawalNetworkFee', 'withdrawalFeeViaRelayer']),
     ...mapGetters('metamask', ['networkConfig', 'nativeCurrency']),
     ...mapGetters('metamask', {
       networkCurrency: 'currency'
@@ -119,17 +119,12 @@ export default {
       return fromWei(this.ethToReceive)
     },
     total() {
-      const { amount, currency } = this.selectedStatistic
+      const { amount } = this.selectedStatistic
       let total = toBN(this.fromDecimals(amount.toString()))
 
       if (this.withdrawType === 'relayer') {
-        const relayerFee = this.totalRelayerFee
-
-        if (currency === this.nativeCurrency) {
-          total = total.sub(relayerFee)
-        } else {
-          total = total.sub(relayerFee).sub(this.ethToReceiveInToken)
-        }
+        const relayerFee = this.withdrawalFeeViaRelayer
+        total = total.sub(relayerFee)
       }
 
       return this.toDecimals(total, null, 6)

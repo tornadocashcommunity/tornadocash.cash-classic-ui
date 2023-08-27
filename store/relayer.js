@@ -249,7 +249,7 @@ export const actions = {
         const isUpdatedMajor = major === requiredMajor
 
         if (prerelease) return false
-        return isUpdatedMajor && Number(patch) >= 4 // Patch checking - also backwards compatibility
+        return isUpdatedMajor && (Number(patch) >= 4 || netId !== 1) // Patch checking - also backwards compatibility for Mainnet
       }
 
       if (!isRelayerUpdated()) {
