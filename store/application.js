@@ -543,16 +543,17 @@ const actions = {
       }
 
       const data = contractInstance.methods.deposit(...params).encodeABI()
-      const gas = await contractInstance.methods.deposit(...params).estimateGas({ from: ethAccount, value })
+      const incompletedTx = {
+        from: ethAccount,
+        to: contractInstance._address,
+        value: numberToHex(value),
+        data
+      }
+      const gasLimit = await rootGetters['fees/oracle'].getGasLimit(incompletedTx, 'other', 10)
 
       const callParams = {
         method: 'eth_sendTransaction',
-        params: {
-          to: contractInstance._address,
-          gas: numberToHex(gas + 50000),
-          value: numberToHex(value),
-          data
-        },
+        params: Object.assign({ gasLimit }, incompletedTx),
         watcherParams: {
           title: { path: 'depositing', amount, currency },
           successTitle: {
@@ -775,18 +776,16 @@ const actions = {
       const params = [instance, proof, ...args]
 
       const data = contractInstance.methods.withdraw(...params).encodeABI()
-      const gas = await contractInstance.methods
-        .withdraw(...params)
-        .estimateGas({ from: ethAccount, value: args[5] })
+      const incompletedTx = {
+        data,
+        value: args[5],
+        to: contractInstance._address
+      }
+      const gasLimit = await rootGetters['fees/oracle'].getGasLimit(incompletedTx, 'user_withdrawal')
 
       const callParams = {
         method: 'eth_sendTransaction',
-        params: {
-          data,
-          value: args[5],
-          to: contractInstance._address,
-          gas: numberToHex(gas + 200000)
-        },
+        params: Object.assign({ gasLimit }, incompletedTx),
         watcherParams: {
           title: { path: 'withdrawing', amount, currency },
           successTitle: {
