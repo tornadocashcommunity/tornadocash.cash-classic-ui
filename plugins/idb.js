@@ -262,7 +262,7 @@ export default async (ctx, inject) => {
 
     Object.keys(tokens).forEach((token) => {
       Object.keys(tokens[token].instanceAddress).forEach((amount) => {
-        if (nativeCurrency === token && netId === 1) {
+        if (nativeCurrency === token) {
           stores.push({
             name: `stringify_bloom_${netId}_${token}_${amount}`,
             keyPath: 'hashBloom'
