@@ -88,5 +88,8 @@ sw.*
 # Mac OSX
 .DS_Store
 
-
+# Events unarchived files
 static/*/*.json
+
+# UI build archive
+dist.zip
