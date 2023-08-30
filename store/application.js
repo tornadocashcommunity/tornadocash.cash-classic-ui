@@ -553,7 +553,7 @@ const actions = {
 
       const callParams = {
         method: 'eth_sendTransaction',
-        params: Object.assign({ gasLimit }, incompletedTx),
+        params: Object.assign({ gas: numberToHex(gasLimit) }, incompletedTx),
         watcherParams: {
           title: { path: 'depositing', amount, currency },
           successTitle: {
@@ -763,7 +763,7 @@ const actions = {
       throw new Error(e.message)
     }
   },
-  async withdraw({ state, rootState, dispatch, getters }, { note }) {
+  async withdraw({ state, rootState, rootGetters, dispatch, getters }, { note }) {
     try {
       const [, currency, amount, netId] = note.split('-')
       const config = networkConfig[`netId${netId}`]
@@ -779,13 +779,14 @@ const actions = {
       const incompletedTx = {
         data,
         value: args[5],
-        to: contractInstance._address
+        to: contractInstance._address,
+        from: ethAccount
       }
-      const gasLimit = await rootGetters['fees/oracle'].getGasLimit(incompletedTx, 'user_withdrawal')
+      const gasLimit = await rootGetters['fees/oracle'].getGasLimit(incompletedTx, 'other', 20)
 
       const callParams = {
         method: 'eth_sendTransaction',
-        params: Object.assign({ gasLimit }, incompletedTx),
+        params: Object.assign({ gas: numberToHex(gasLimit) }, incompletedTx),
         watcherParams: {
           title: { path: 'withdrawing', amount, currency },
           successTitle: {
