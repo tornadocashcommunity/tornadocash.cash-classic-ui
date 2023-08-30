@@ -672,7 +672,7 @@ const actions = {
     const nativeCurrency = rootGetters['metamask/nativeCurrency']
     const withdrawType = state.withdrawType
 
-    const relayer = BigInt(rootState.relayer.selectedRelayer.address)
+    let relayer = BigInt(0)
     let fee = BigInt(0)
     let refund = BigInt(0)
 
@@ -718,6 +718,7 @@ const actions = {
     // Don't need to calculate or estimate relayer fee, so, return proof immediately
     if (withdrawType !== 'relayer') return calculateSnarkProof()
 
+    relayer = BigInt(rootState.relayer.selectedRelayer.address)
     fee = BigInt(rootState.fees.withdrawalFeeViaRelayer)
     const naiveProof = await calculateSnarkProof()
     if (Number(note.netId) === 1) return naiveProof // Don't need to smart-estimate fee if we use V4 withdrawal
