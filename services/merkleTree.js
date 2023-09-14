@@ -1,4 +1,4 @@
-import { MerkleTree, PartialMerkleTree } from 'fixed-merkle-tree'
+import { MerkleTree, PartialMerkleTree } from '@tornado/fixed-merkle-tree'
 
 import { trees } from '@/constants'
 import { download } from '@/store/snark'

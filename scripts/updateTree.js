@@ -3,7 +3,7 @@ import 'dotenv/config'
 import fs from 'fs'
 
 import BloomFilter from 'bloomfilter.js'
-import { MerkleTree } from 'fixed-merkle-tree'
+import { MerkleTree } from '@tornado/fixed-merkle-tree'
 import { buildMimcSponge } from 'circomlibjs'
 
 import networkConfig, { enabledChains } from '../networkConfig'
