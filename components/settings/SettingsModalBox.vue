@@ -6,7 +6,6 @@
     </header>
     <b-tabs v-model="withdrawType" :animated="false" class="is-modal">
       <RelayerTab />
-      <WalletTab />
     </b-tabs>
   </div>
 </template>
@@ -14,12 +13,11 @@
 /* eslint-disable no-console */
 import { mapState, mapMutations } from 'vuex'
 
-import { RelayerTab, WalletTab } from '@/components/settings/tabs'
+import { RelayerTab } from '@/components/settings/tabs'
 
 export default {
   components: {
-    RelayerTab,
-    WalletTab
+    RelayerTab
   },
   props: {
     currency: {
