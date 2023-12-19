@@ -29,9 +29,9 @@ export default {
         name: 'MevblockerRPC',
         url: 'https://rpc.mevblocker.io'
       },
-      llamaRPC: {
-        name: 'llamarpc',
-        url: 'https://eth.llamarpc.com'
+      oneRPC: {
+        name: '1RPC',
+        url: 'https://1rpc.io/eth'
       }
     },
     multicall: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
