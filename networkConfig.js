@@ -459,6 +459,10 @@ export default {
       chainnodes: {
         name: 'Tornado RPC',
         url: 'https://goerli.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
+      },
+      gatewayRPC: {
+        name: 'Gateway RPC',
+        url: 'https://rpc.goerli.eth.gateway.fm'
       }
     },
     tokens: {
