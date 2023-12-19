@@ -401,17 +401,17 @@ export default {
     multicall: '0xe86e3989c74293Acc962156cd3F525c07b6a1B6e',
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     rpcUrls: {
-      publicRpc1: {
+      publicRpc: {
         name: 'Avalanche RPC',
-        url: 'https://endpoints.omniatech.io/v1/avax/mainnet/public'
+        url: 'https://api.avax.network/ext/bc/C/rpc'
       },
       meowRPC: {
         name: 'Meow RPC',
         url: 'https://avax.meowrpc.com'
       },
-      communityRPC: {
-        name: 'Tornado RPC',
-        url: 'https://avalanche-rpc.tornado.ws/ext/bc/C/rpc'
+      oneRPC: {
+        name: 'OneRPC',
+        url: 'https://1rpc.io/avax/c'
       }
     },
     tokens: {
