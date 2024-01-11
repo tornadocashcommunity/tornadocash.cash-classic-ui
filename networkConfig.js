@@ -29,9 +29,9 @@ export default {
         name: 'MevblockerRPC',
         url: 'https://rpc.mevblocker.io'
       },
-      llamaRPC: {
-        name: 'llamarpc',
-        url: 'https://eth.llamarpc.com'
+      oneRPC: {
+        name: '1RPC',
+        url: 'https://1rpc.io/eth'
       }
     },
     multicall: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
@@ -401,17 +401,17 @@ export default {
     multicall: '0xe86e3989c74293Acc962156cd3F525c07b6a1B6e',
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     rpcUrls: {
-      publicRpc1: {
+      publicRpc: {
         name: 'Avalanche RPC',
-        url: 'https://endpoints.omniatech.io/v1/avax/mainnet/public'
+        url: 'https://api.avax.network/ext/bc/C/rpc'
       },
       meowRPC: {
         name: 'Meow RPC',
         url: 'https://avax.meowrpc.com'
       },
-      communityRPC: {
-        name: 'Tornado RPC',
-        url: 'https://avalanche-rpc.tornado.ws/ext/bc/C/rpc'
+      oneRPC: {
+        name: 'OneRPC',
+        url: 'https://1rpc.io/avax/c'
       }
     },
     tokens: {
@@ -459,6 +459,10 @@ export default {
       chainnodes: {
         name: 'Tornado RPC',
         url: 'https://goerli.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
+      },
+      gatewayRPC: {
+        name: 'Gateway RPC',
+        url: 'https://rpc.goerli.eth.gateway.fm'
       }
     },
     tokens: {

@@ -17,21 +17,22 @@ function updateEncrypted(netId) {
 async function updateCommon(netId) {
   const { nativeCurrency, tokens } = networkConfig[`netId${netId}`]
 
-  console.log(Object.keys(tokens[nativeCurrency].instanceAddress))
+  for (const type of EVENTS) {
+    for (const [tokenName, tokenInfo] of Object.entries(tokens)) {
+      console.log(`${tokenInfo.symbol}: ${Object.keys(tokenInfo.instanceAddress)}`)
+      for (const instance of Object.keys(tokenInfo.instanceAddress)) {
+        console.warn('instance', instance)
 
-  for await (const type of EVENTS) {
-    for await (const instance of Object.keys(tokens[nativeCurrency].instanceAddress)) {
-      console.warn('instance', instance)
+        const filename = `${type.toLowerCase()}s_${netId}_${tokenName}_${instance}.json`
 
-      const filename = `${type.toLowerCase()}s_${netId}_${nativeCurrency}_${instance}.json`
+        const isSaved = save(`${EVENTS_PATH}${filename}`)
 
-      const isSaved = save(`${EVENTS_PATH}${filename}`)
-
-      if (isSaved) {
-        try {
-          testCommon(netId, type, filename)
-        } catch (err) {
-          console.error(err.message)
+        if (isSaved) {
+          try {
+            testCommon(netId, type, filename)
+          } catch (err) {
+            console.error(err.message)
+          }
         }
       }
     }
