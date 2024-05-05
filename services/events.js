@@ -412,10 +412,11 @@ class EventService {
   async getEventsFromBlock({ fromBlock, graphMethod, type }) {
     try {
       // ToDo think about undefined
-      const rpcEvents = await this.getEventsFromRpc({ fromBlock, type })
+      const graphEvents = await this.getEventsFromGraph({ fromBlock, methodName: graphMethod })
+      const lastSyncBlock = fromBlock > graphEvents?.lastBlock ? fromBlock : graphEvents?.lastBlock
+      const rpcEvents = await this.getEventsFromRpc({ fromBlock: lastSyncBlock, type })
 
-      const allEvents = [].concat(rpcEvents || [])
-
+      const allEvents = [].concat(graphEvents?.events || [], rpcEvents || [])
       if (allEvents.length) {
         return {
           events: allEvents,
