@@ -21,8 +21,12 @@ export default {
     networkName: 'Ethereum Mainnet',
     deployedBlock: 9116966,
     rpcUrls: {
-      chainnodes: {
+      tornadoRPC: {
         name: 'Tornado RPC',
+        url: 'https://tornadocash-rpc.com/mainnet'
+      },
+      chainnodes: {
+        name: 'Chainnodes RPC',
         url: 'https://mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
       },
       mevblockerRPC: {
@@ -141,8 +145,12 @@ export default {
     multicall: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     rpcUrls: {
-      chainnodes: {
+      tornadoRPC: {
         name: 'Tornado RPC',
+        url: 'https://tornadocash-rpc.com/bsc'
+      },
+      chainnodes: {
+        name: 'Chainnodes RPC',
         url: 'https://bsc-mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
       },
       oneRPC: {
@@ -193,7 +201,7 @@ export default {
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     rpcUrls: {
       chainnodes: {
-        name: 'Tornado RPC',
+        name: 'Chainnodes RPC',
         url: 'https://polygon-mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
       },
       oneRpc: {
@@ -244,8 +252,12 @@ export default {
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     ovmGasPriceOracleContract: '0x420000000000000000000000000000000000000F',
     rpcUrls: {
-      chainnodes: {
+      tornadoRPC: {
         name: 'Tornado RPC',
+        url: 'https://tornadocash-rpc.com/op'
+      },
+      chainnodes: {
+        name: 'Chainnodes RPC',
         url: 'https://optimism-mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
       },
       oneRpc: {
@@ -295,8 +307,12 @@ export default {
     multicall: '0x842eC2c7D803033Edf55E478F461FC547Bc54EB2',
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     rpcUrls: {
-      chainnodes: {
+      tornadoRPC: {
         name: 'Tornado RPC',
+        url: 'https://tornadocash-rpc.com/arbitrum'
+      },
+      chainnodes: {
+        name: 'Chainnodes RPC',
         url: 'https://arbitrum-one.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
       },
       oneRpc: {
@@ -350,8 +366,12 @@ export default {
     multicall: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     rpcUrls: {
-      chainnodes: {
+      tornadoRPC: {
         name: 'Tornado RPC',
+        url: 'https://tornadocash-rpc.com/gnosis'
+      },
+      chainnodes: {
+        name: 'Chainnodes RPC',
         url: 'https://gnosis-mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
       },
       blockPi: {
