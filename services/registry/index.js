@@ -3,6 +3,7 @@ import namehash from 'eth-ens-namehash'
 import { BigNumber as BN } from 'bignumber.js'
 import { toChecksumAddress, isAddress } from 'web3-utils'
 
+import { graph } from '@/services'
 import networkConfig from '@/networkConfig'
 import { REGISTRY_DEPLOYED_BLOCK } from '@/constants'
 import { sleep, flattenNArray } from '@/utils'
@@ -169,8 +170,20 @@ class RelayerRegister {
   fetchRelayers = async () => {
     const blockRange = 10000
     // eslint-disable-next-line prefer-const
-    let { blockTo, cachedEvents } = await this.getCachedData()
+    let { blockFrom, blockTo, cachedEvents } = await this.getCachedData()
     let allRelayers = cachedEvents
+
+    if (!cachedEvents || !cachedEvents.length) {
+      const { lastSyncBlock, events } = await graph.getAllRegisters(blockFrom)
+
+      if (events.length) {
+        blockTo = lastSyncBlock + 1
+        cachedEvents = events.map((el) => ({
+          ensName: el.ensName,
+          relayerAddress: toChecksumAddress(el.address)
+        }))
+      }
+    }
 
     const currentBlockNumber = await this.provider.getBlockNumber()
     const fromBlock = cachedEvents.length === 0 ? REGISTRY_DEPLOYED_BLOCK[1] : blockTo
@@ -181,7 +194,7 @@ class RelayerRegister {
       let registerRelayerEvents
       let lastSyncBlock = blockTo
 
-      if (cachedEvents.length > 0 || blockDifference === 0) {
+      if (blockDifference <= 0) {
         return cachedEvents
       } else if (blockDifference >= blockRange) {
         toBlock = currentBlockNumber
