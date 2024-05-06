@@ -17,8 +17,6 @@ export default {
       switch (this.netId) {
         case 1:
           return 'Ethereum'
-        case 5:
-          return 'Goerli'
         case 56:
           return 'BSC Mainnet'
         case 137:

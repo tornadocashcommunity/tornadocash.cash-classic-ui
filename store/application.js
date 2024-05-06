@@ -410,7 +410,6 @@ const actions = {
 
       const networksWithCache = {
         1: cachedEventsLength.mainnet.ENCRYPTED_NOTES,
-        5: cachedEventsLength.goerli.ENCRYPTED_NOTES,
         56: cachedEventsLength.bsc.ENCRYPTED_NOTES
       }
 
