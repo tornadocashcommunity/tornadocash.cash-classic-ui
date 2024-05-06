@@ -20,14 +20,15 @@ const link = ({ getContext }) => {
 }
 
 const CHAIN_GRAPH_URLS = {
-  1: 'https://api.thegraph.com/subgraphs/name/tornadocash/mainnet-tornado-subgraph',
-  5: 'https://api.thegraph.com/subgraphs/name/tornadocash/goerli-tornado-subgraph',
-  10: 'https://api.thegraph.com/subgraphs/name/tornadocash/optimism-tornado-subgraph',
-  56: 'https://api.thegraph.com/subgraphs/name/tornadocash/bsc-tornado-subgraph',
-  100: 'https://api.thegraph.com/subgraphs/name/tornadocash/xdai-tornado-subgraph',
-  137: 'https://api.thegraph.com/subgraphs/name/tornadocash/matic-tornado-subgraph',
-  42161: 'https://api.thegraph.com/subgraphs/name/tornadocash/arbitrum-tornado-subgraph',
-  43114: 'https://api.thegraph.com/subgraphs/name/tornadocash/avalanche-tornado-subgraph'
+  1: 'https://tornadocash-rpc.com/subgraphs/name/tornadocash/mainnet-tornado-subgraph',
+  5: 'https://tornadocash-rpc.com/subgraphs/name/tornadocash/goerli-tornado-subgraph',
+  10: 'https://tornadocash-rpc.com/subgraphs/name/tornadocash/optimism-tornado-subgraph',
+  56: 'https://tornadocash-rpc.com/subgraphs/name/tornadocash/bsc-tornado-subgraph',
+  100: 'https://tornadocash-rpc.com/subgraphs/name/tornadocash/xdai-tornado-subgraph',
+  137: 'https://tornadocash-rpc.com/subgraphs/name/tornadocash/matic-tornado-subgraph',
+  42161: 'https://tornadocash-rpc.com/subgraphs/name/tornadocash/arbitrum-tornado-subgraph',
+  43114: 'https://tornadocash-rpc.com/subgraphs/name/tornadocash/avalanche-tornado-subgraph',
+  11155111: 'https://tornadocash-rpc.com/subgraphs/name/tornadocash/sepolia-tornado-subgraph'
 }
 
 const defaultOptions = {
@@ -45,7 +46,7 @@ const client = new ApolloClient({
 })
 
 const registryClient = new ApolloClient({
-  uri: 'https://api.thegraph.com/subgraphs/name/tornadocash/tornado-relayer-registry',
+  uri: 'https://tornadocash-rpc.com/subgraphs/name/tornadocash/tornado-relayer-registry',
   cache: new InMemoryCache(),
   credentials: 'omit',
   defaultOptions
