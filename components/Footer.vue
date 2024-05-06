@@ -37,6 +37,14 @@
                 <b-button
                   tag="a"
                   type="is-icon"
+                  href="https://t.me/tornadoofficial"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  icon-right="telegram"
+                ></b-button>
+                <b-button
+                  tag="a"
+                  type="is-icon"
                   href="https://git.tornado.ws/tornadocash/classic-ui"
                   target="_blank"
                   rel="noopener noreferrer"
