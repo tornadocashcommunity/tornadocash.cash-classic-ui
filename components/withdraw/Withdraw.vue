@@ -200,7 +200,7 @@ export default {
       return false
     },
     shouldSettingsShow() {
-      return !this.isLoading && !this.error.type && !this.hasErrorNote
+      return !this.hasErrorNote && !this.error.message
     },
     hasErrorNote() {
       const note = this.withdrawNote.split('-')[4]
