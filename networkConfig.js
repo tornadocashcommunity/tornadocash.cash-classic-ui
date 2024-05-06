@@ -1,5 +1,5 @@
 export const blockSyncInterval = 10000
-export const enabledChains = ['1', '5', '10', '56', '100', '137', '42161', '43114']
+export const enabledChains = ['1', '5', '10', '56', '100', '137', '42161', '43114', '11155111']
 export default {
   netId1: {
     rpcCallRetryAttempt: 15,
@@ -563,5 +563,77 @@ export default {
     'torn.contract.tornadocash.eth': '0x77777FeDdddFfC19Ff86DB637967013e6C6A116C',
     'governance.contract.tornadocash.eth': '0x5efda50f22d34F262c29268506C5Fa42cB56A1Ce',
     'tornado-proxy.contract.tornadocash.eth': '0x454d870a72e29d5e5697f635128d18077bd04c60'
+  },
+  netId11155111: {
+    rpcCallRetryAttempt: 15,
+    gasPrices: {
+      instant: 2,
+      fast: 2,
+      standard: 2,
+      low: 2
+    },
+    nativeCurrency: 'eth',
+    currencyName: 'ETH',
+    explorerUrl: {
+      tx: 'https://sepolia.etherscan.io/tx/',
+      address: 'https://sepolia.etherscan.io/address/',
+      block: 'https://sepolia.etherscan.io/block/'
+    },
+    merkleTreeHeight: 20,
+    emptyElement: '21663839004416932945382355908790599225266501822907911457504978515578255421292',
+    networkName: 'Ethereum Sepolia',
+    deployedBlock: 5594395,
+    multicall: '0xcA11bde05977b3631167028862bE2a173976CA11',
+    echoContractAccount: '0xcDD1fc3F5ac2782D83449d3AbE80D6b7B273B0e5',
+    aggregatorContract: '0x4088712AC9fad39ea133cdb9130E465d235e9642',
+    rpcUrls: {
+      tornadoRPC: {
+        name: 'Tornado RPC',
+        url: 'https://tornadocash-rpc.com/sepolia'
+      },
+      sepolia: {
+        name: 'Sepolia RPC',
+        url: 'https://rpc.sepolia.org'
+      },
+      chainnodes: {
+        name: 'Chainnodes RPC',
+        url: 'https://sepolia.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
+      }
+    },
+    tokens: {
+      eth: {
+        instanceAddress: {
+          '0.1': '0x8C4A04d872a6C1BE37964A21ba3a138525dFF50b',
+          '1': '0x8cc930096B4Df705A007c4A039BDFA1320Ed2508',
+          '10': '0x8D10d506D29Fc62ABb8A290B99F66dB27Fc43585',
+          '100': '0x44c5C92ed73dB43888210264f0C8b36Fd68D8379'
+        },
+        symbol: 'ETH',
+        decimals: 18
+      },
+      dai: {
+        instanceAddress: {
+          '100': '0x6921fd1a97441dd603a997ED6DDF388658daf754',
+          '1000': '0x50a637770F5d161999420F7d70d888DE47207145',
+          '10000': '0xecD649870407cD43923A816Cc6334a5bdf113621',
+          '100000': '0x73B4BD04bF83206B6e979BE2507098F92EDf4F90'
+        },
+        tokenAddress: '0xFF34B3d4Aee8ddCd6F9AFFFB6Fe49bD371b8a357',
+        symbol: 'DAI',
+        decimals: 18,
+        gasLimit: '55000'
+      }
+    },
+    ensSubdomainKey: 'sepolia-tornado',
+    pollInterval: 15,
+    constants: {
+      GOVERNANCE_BLOCK: 5594395,
+      NOTE_ACCOUNT_BLOCK: 5594395,
+      ENCRYPTED_NOTES_BLOCK: 5594395,
+      MINING_BLOCK_TIME: 15
+    },
+    'torn.contract.tornadocash.eth': '0x3AE6667167C0f44394106E197904519D808323cA',
+    'governance.contract.tornadocash.eth': '0xe5324cD7602eeb387418e594B87aCADee08aeCAD',
+    'tornado-router.contract.tornadocash.eth': '0x1572AFE6949fdF51Cb3E0856216670ae9Ee160Ee'
   }
 }
