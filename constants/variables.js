@@ -52,9 +52,6 @@ export const cachedEventsLength = {
   mainnet: {
     ENCRYPTED_NOTES: 16898
   },
-  goerli: {
-    ENCRYPTED_NOTES: 1662
-  },
   bsc: {
     ENCRYPTED_NOTES: 11333
   }

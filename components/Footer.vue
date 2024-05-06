@@ -109,7 +109,7 @@ export default {
     ...mapGetters('metamask', ['networkConfig', 'netId']),
     ...mapGetters('txHashKeeper', ['addressExplorerUrl']),
     duneLink() {
-      const mainnetNetworks = [1, 5]
+      const mainnetNetworks = [1]
 
       if (mainnetNetworks.includes(Number(this.netId))) {
         return 'https://dune.xyz/poma/tornado-cash_1'

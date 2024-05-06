@@ -52,7 +52,7 @@ export default {
     }),
     ...mapState('relayer', ['isLoadingRelayers', 'validRelayers']),
     isRelayersAvailable() {
-      return !this.isLoadingRelayers && this.validRelayers.length > 0;
+      return !this.isLoadingRelayers && this.validRelayers.length > 0
     }
   },
   created() {
