@@ -505,82 +505,26 @@ const actions = {
       throw new Error(err.message)
     }
   },
-  async addNetwork(_, { netId }) {
-    const METAMASK_LIST = {
-      56: {
-        chainId: '0x38',
-        chainName: 'Binance Smart Chain Mainnet',
-        rpcUrls: ['https://bscrpc.com'],
-        nativeCurrency: {
-          name: 'Binance Chain Native Token',
-          symbol: 'BNB',
-          decimals: 18
-        },
-        blockExplorerUrls: ['https://bscscan.com']
-      },
-      10: {
-        chainId: '0xa',
-        chainName: 'Optimism',
-        rpcUrls: ['https://mainnet.optimism.io/'],
-        nativeCurrency: {
-          name: 'Ether',
-          symbol: 'ETH',
-          decimals: 18
-        },
-        blockExplorerUrls: ['https://optimistic.etherscan.io']
-      },
-      100: {
-        chainId: '0x64',
-        chainName: 'Gnosis',
-        rpcUrls: ['https://development.tornadocash.community/rpc/v1'],
-        nativeCurrency: {
-          name: 'xDAI',
-          symbol: 'xDAI',
-          decimals: 18
-        },
-        blockExplorerUrls: ['https://blockscout.com/xdai/mainnet']
-      },
-      137: {
-        chainId: '0x89',
-        chainName: 'Polygon Mainnet',
-        rpcUrls: ['https://polygon-rpc.com'],
-        nativeCurrency: {
-          name: 'MATIC',
-          symbol: 'MATIC',
-          decimals: 18
-        },
-        blockExplorerUrls: ['https://polygonscan.com']
-      },
-      42161: {
-        chainId: '0xA4B1',
-        chainName: 'Arbitrum One',
-        rpcUrls: ['https://arb1.arbitrum.io/rpc'],
-        nativeCurrency: {
-          name: 'Ether',
-          symbol: 'ETH',
-          decimals: 18
-        },
-        blockExplorerUrls: ['https://arbiscan.io']
-      },
-      43114: {
-        chainId: '0xA86A',
-        chainName: 'Avalanche C-Chain',
-        rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
-        nativeCurrency: {
-          name: 'Avalanche',
-          symbol: 'AVAX',
-          decimals: 18
-        },
-        blockExplorerUrls: ['https://snowtrace.io']
-      }
-    }
+  async addNetwork({ rootGetters }, { netId }) {
+    const config = networkConfig[`netId${netId}`]
+    const { url } = rootGetters['settings/getRpc'](netId)
 
-    if (METAMASK_LIST[netId]) {
-      await this.$provider.sendRequest({
-        method: 'wallet_addEthereumChain',
-        params: [METAMASK_LIST[netId]]
-      })
-    }
+    await this.$provider.sendRequest({
+      method: 'wallet_addEthereumChain',
+      params: [
+        {
+          chainId: `0x${Number(netId).toString(16)}`,
+          chainName: config.networkName,
+          rpcUrls: [url],
+          nativeCurrency: {
+            name: config.networkName,
+            symbol: config.currencyName,
+            decimals: 18
+          },
+          blockExplorerUrls: [config.explorerUrl.tx.replace('/tx', '')]
+        }
+      ]
+    })
   },
   async checkNetworkVersion() {
     try {
