@@ -1,11 +1,12 @@
 // from https://github.com/ChainSafe/web3.js/issues/2683#issuecomment-547348416
 
 import namehash from 'eth-ens-namehash'
-import { BigNumber, utils } from 'ethers'
 import ABI from 'web3-eth-ens/lib/resources/ABI/Resolver'
 import uniq from 'lodash/uniq'
 import chunk from 'lodash/chunk'
 import { CHUNK_COUNT_PER_BATCH_REQUEST } from '@/constants'
+
+const { isAddress } = require('web3-utils')
 
 export const createBatchRequestCallback = (resolve, reject) => (error, data) => {
   if (error) {
@@ -65,8 +66,7 @@ const createFetchEnsNames = (web3, batch, results) => async (data) => {
       batch.add(requestData)
     })
 
-    const isZeroAddress =
-      ensName.trim().length && utils.isAddress(ensName) && BigNumber.from(ensName).isZero()
+    const isZeroAddress = ensName.trim().length && isAddress(ensName) && BigInt(ensName) === BigInt(0)
 
     if (isZeroAddress) return results
 

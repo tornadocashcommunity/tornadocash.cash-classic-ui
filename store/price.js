@@ -18,8 +18,25 @@ export const getters = {
   priceOracle: (state, getters, rootState, rootGetters) => {
     const netId = Number(rootGetters['metamask/netId'])
     const { url: rpcUrl } = rootState.settings[`netId${netId}`].rpc
+    const config = rootGetters['metamask/networkConfig']
 
-    return new TokenPriceOracle(rpcUrl)
+    return new TokenPriceOracle(netId, rpcUrl, config)
+  },
+  tokens: (state, getters, rootStater, rootGetters) => {
+    const config = rootGetters['metamask/networkConfig']
+    const { 'torn.contract.tornadocash.eth': tornContract, tokens } = config
+    return [
+      {
+        tokenAddress: tornContract,
+        symbol: 'TORN',
+        decimals: 18
+      },
+      ...Object.values(tokens)
+        .map(({ tokenAddress, symbol, decimals }) =>
+          tokenAddress ? { tokenAddress, symbol, decimals } : undefined
+        )
+        .filter((t) => t)
+    ]
   },
   tokenRate: (state, getters, rootState) => {
     return state.prices[rootState.application.selectedStatistic.currency]
@@ -49,8 +66,10 @@ export const actions = {
       return
     }
 
+    const tokens = getters.tokens
+
     try {
-      const prices = await getters.priceOracle.fetchPrices()
+      const prices = await getters.priceOracle.fetchPrices(tokens)
       console.log('prices', prices)
       commit('SAVE_TOKEN_PRICES', prices)
 

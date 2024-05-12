@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable import/order */
 
-import { utils } from 'ethers'
+import { AbiCoder, dataLength, dataSlice } from 'ethers'
 import uniqBy from 'lodash/uniqBy'
 import chunk from 'lodash/chunk'
 
@@ -9,6 +9,8 @@ import { lookupAddresses, createBatchRequestCallback } from '@/services'
 import { CHUNK_COUNT_PER_BATCH_REQUEST } from '@/constants'
 
 const { toWei, fromWei, toBN } = require('web3-utils')
+
+const defaultAbiCoder = AbiCoder.defaultAbiCoder()
 
 const CACHE_TX = {}
 const CACHE_BLOCK = {}
@@ -18,15 +20,12 @@ const parseComment = (calldata, govInstance) => {
   if (!calldata || !govInstance) return empty
 
   const methodLength = 4 // length of castDelegatedVote method
-  const result = utils.defaultAbiCoder.decode(
-    ['address[]', 'uint256', 'bool'],
-    utils.hexDataSlice(calldata, methodLength)
-  )
+  const result = defaultAbiCoder.decode(['address[]', 'uint256', 'bool'], dataSlice(calldata, methodLength))
   const data = govInstance.methods.castDelegatedVote(...result).encodeABI()
-  const dataLength = utils.hexDataLength(data)
+  const length = dataLength(data)
 
   try {
-    const str = utils.defaultAbiCoder.decode(['string'], utils.hexDataSlice(calldata, dataLength))
+    const str = defaultAbiCoder.decode(['string'], dataSlice(calldata, length))
     const [contact, message] = JSON.parse(str)
     return { contact, message }
   } catch {

@@ -2951,9 +2951,9 @@
     keccak "^2.0.0"
     yargs "^12.0.5"
 
-"@tornado/tornado-oracles@git+https://git.tornado.ws/tornadocontrib/tornado-oracles.git#937d65f829e044c1b649ca9305fa4d50733a6d57":
+"@tornado/tornado-oracles@git+https://git.tornado.ws/tornadocontrib/tornado-oracles.git#7c646dc11f5785457f64f3aba297183fb70992da":
   version "3.3.0"
-  resolved "git+https://git.tornado.ws/tornadocontrib/tornado-oracles.git#937d65f829e044c1b649ca9305fa4d50733a6d57"
+  resolved "git+https://git.tornado.ws/tornadocontrib/tornado-oracles.git#7c646dc11f5785457f64f3aba297183fb70992da"
   dependencies:
     ethers "^6.4.0"
 
@@ -7928,7 +7928,7 @@ ethers@^5.5.1:
     "@ethersproject/web" "5.6.0"
     "@ethersproject/wordlists" "5.6.0"
 
-ethers@^6.4.0:
+ethers@^6.12.1, ethers@^6.4.0:
   version "6.12.1"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-6.12.1.tgz#517ff6d66d4fd5433e38e903051da3e57c87ff37"
   integrity sha512-j6wcVoZf06nqEcBbDWkKg8Fp895SS96dSnTCjiXT+8vt2o02raTn4Lo9ERUuIVU5bAjoPYeA+7ytQFexFmLuVw==

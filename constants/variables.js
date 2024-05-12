@@ -43,6 +43,8 @@ export const ACTION_GAS = Object.freeze({
   [ACTION.ARB_WITHDRAW]: 1900000
 })
 
+export const WITHDRAW_GAS_LIMIT = 600_000
+
 export const GAS_PRICES = ['low', 'standard', 'fast']
 
 export const addressType = { type: 'string', pattern: '^0x[a-fA-F0-9]{40}$' }

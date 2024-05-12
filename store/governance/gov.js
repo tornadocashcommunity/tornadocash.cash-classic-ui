@@ -2,7 +2,7 @@
 /* eslint-disable import/order */
 
 import Web3 from 'web3'
-import { utils } from 'ethers'
+import { AbiCoder, concat } from 'ethers'
 import { ToastProgrammatic as Toast } from 'buefy'
 
 import networkConfig from '@/networkConfig'
@@ -13,6 +13,8 @@ import AggregatorABI from '@/abis/Aggregator.abi.json'
 import { httpConfig } from '@/constants'
 
 const { numberToHex, toWei, fromWei, toBN, hexToNumber, hexToNumberString } = require('web3-utils')
+
+const defaultAbiCoder = AbiCoder.defaultAbiCoder()
 
 const state = () => {
   return {
@@ -391,8 +393,8 @@ const actions = {
 
       if (contact || message) {
         const value = JSON.stringify([contact, message])
-        const tail = utils.defaultAbiCoder.encode(['string'], [value])
-        dataWithTail = utils.hexConcat([data, tail])
+        const tail = defaultAbiCoder.encode(['string'], [value])
+        dataWithTail = concat([data, tail])
       }
 
       const gas = await web3.eth.estimateGas({

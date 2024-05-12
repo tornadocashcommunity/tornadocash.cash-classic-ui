@@ -270,12 +270,22 @@ class RelayerRegister {
   }
 
   getValidRelayers = async (relayers, ensSubdomainKey) => {
-    const relayerNameHashes = relayers.map((r) => namehash.hash(r.ensName))
+    const relayersSet = new Set()
+
+    const uniqueRelayers = relayers.filter(({ ensName }) => {
+      if (!relayersSet.has(ensName)) {
+        relayersSet.add(ensName)
+        return true
+      }
+      return false
+    })
+
+    const relayerNameHashes = uniqueRelayers.map((r) => namehash.hash(r.ensName))
 
     const relayersData = await this.aggregator.methods.relayersData(relayerNameHashes, subdomains).call()
 
     const validRelayers = relayersData.reduce(
-      (acc, curr, index) => this.filterRelayer(acc, curr, ensSubdomainKey, relayers[index]),
+      (acc, curr, index) => this.filterRelayer(acc, curr, ensSubdomainKey, uniqueRelayers[index]),
       []
     )
 

@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-console, import/order */
 import Web3 from 'web3'
+import { ZeroAddress } from 'ethers'
 
 import networkConfig from '@/networkConfig'
 import { cachedEventsLength, eventsType, httpConfig } from '@/constants'
@@ -106,26 +107,29 @@ const mutations = {
 }
 
 const getters = {
+  getWeb3: (state, getters, rootState, rootGetters) => {
+    const netId = rootGetters['metamask/netId']
+    const { url } = rootState.settings[`netId${netId}`].rpc
+    const httpProvider = new Web3.providers.HttpProvider(url, httpConfig)
+    return new Web3(httpProvider)
+  },
   eventsInterface: (state, getters, rootState, rootGetters) => {
     const netId = rootGetters['metamask/netId']
     const { url } = rootState.settings[`netId${netId}`].rpc
     return new EventsFactory(url)
   },
-  instanceContract: (state, getters, rootState) => ({ currency, amount, netId }) => {
+  instanceContract: (state, getters) => ({ currency, amount, netId }) => {
     const config = networkConfig[`netId${netId}`]
-    const { url } = rootState.settings[`netId${netId}`].rpc
     const address = config.tokens[currency].instanceAddress[amount]
-    const httpProvider = new Web3.providers.HttpProvider(url, httpConfig)
-    const web3 = new Web3(httpProvider)
+    const web3 = getters.getWeb3
     return new web3.eth.Contract(InstanceABI, address)
   },
-  multicallContract: (state, getters, rootState) => ({ netId }) => {
+  multicallContract: (state, getters) => ({ netId }) => {
     const config = networkConfig[`netId${netId}`]
-    const { url } = rootState.settings[`netId${netId}`].rpc
-    const web3 = new Web3(url)
+    const web3 = getters.getWeb3
     return new web3.eth.Contract(MulticallABI, config.multicall)
   },
-  tornadoProxyContract: (state, getters, rootState) => ({ netId }) => {
+  tornadoProxyContract: (state, getters) => ({ netId }) => {
     const {
       'tornado-proxy.contract.tornadocash.eth': tornadoProxy,
       'tornado-router.contract.tornadocash.eth': tornadoRouter,
@@ -133,8 +137,7 @@ const getters = {
     } = networkConfig[`netId${netId}`]
 
     const proxyContract = tornadoRouter || tornadoProxy || tornadoProxyLight
-    const { url } = rootState.settings[`netId${netId}`].rpc
-    const web3 = new Web3(url)
+    const web3 = getters.getWeb3
     return new web3.eth.Contract(TornadoProxyABI, proxyContract)
   },
   currentContract: (state, getters) => (params) => {
@@ -150,11 +153,16 @@ const getters = {
     const tornadoProxy = getters.tornadoProxyContract({ netId })
     const tornadoInstance = getters.instanceContract({ currency, amount, netId })
 
+    const { withdrawType } = state
+    const relayer = rootState.relayer.selectedRelayer.address
+    const { ethAccount } = rootState.metamask
+
     const calldata = tornadoProxy.methods
       .withdraw(tornadoInstance._address, proof, ...withdrawCallArgs)
       .encodeABI()
 
     return {
+      from: withdrawType === 'relayer' ? relayer : ethAccount,
       to: tornadoProxy._address,
       data: calldata,
       value: withdrawCallArgs[5] || 0
@@ -510,6 +518,7 @@ const actions = {
   },
   async sendDeposit({ state, rootState, getters, rootGetters, dispatch, commit }, { isEncrypted }) {
     try {
+      const web3 = getters.getWeb3
       const { commitment, note, prefix } = state
       // eslint-disable-next-line prefer-const
       let [, currency, amount, netId] = prefix.split('-')
@@ -548,7 +557,7 @@ const actions = {
         value: numberToHex(value),
         data
       }
-      const gasLimit = await rootGetters['fees/oracle'].getGasLimit(incompletedTx, 'other', 10)
+      const gasLimit = Math.floor((await web3.eth.estimateGas(incompletedTx)) * 1.2)
 
       const callParams = {
         method: 'eth_sendTransaction',
@@ -665,36 +674,69 @@ const actions = {
     { rootGetters, rootState, state, getters, dispatch },
     { root, note, tree, recipient, leafIndex }
   ) {
+    const { circuit, provingKey } = await getTornadoKeys()
+
+    if (!groth16) {
+      groth16 = await buildGroth16()
+    }
+
+    const web3 = getters.getWeb3
+
+    const { nullifierHash, secret, nullifier, amount, currency } = note
+
+    const { denomination, isNativeCurrency } = rootGetters['fees/selectedInstance']
+    const withdrawType = state.withdrawType
+
     const { pathElements, pathIndices } = tree.path(leafIndex)
     console.log('pathElements, pathIndices', pathElements, pathIndices)
 
-    const nativeCurrency = rootGetters['metamask/nativeCurrency']
-    const withdrawType = state.withdrawType
+    const defaultGasLimit = rootGetters['fees/gasLimit']()
+    let gasLimit = defaultGasLimit
 
-    let relayer = BigInt(0)
-    let fee = BigInt(0)
-    let refund = BigInt(0)
+    async function getProof() {
+      let relayer = ZeroAddress
+      let fee = BigInt(0)
+      let refund = BigInt(0)
 
-    async function calculateSnarkProof() {
+      if (withdrawType === 'relayer') {
+        // Recalculate proof with actual fee and refund
+        await dispatch(
+          'fees/calculateWithdrawalFeeViaRelayer',
+          {
+            tx: {
+              gasLimit
+            }
+          },
+          { root: true }
+        )
+
+        relayer = rootState.relayer.selectedRelayer.address
+        fee = BigInt(rootState.fees.withdrawalFeeViaRelayer)
+
+        if (fee > denomination) {
+          throw new Error(
+            'Relayer fee exceeds the withdraw amount, disable relayer withdrawal or use other amount'
+          )
+        }
+      }
+
+      if (!isNativeCurrency) {
+        refund = rootGetters['fees/ethRefund']
+      }
+
       const input = {
         // public
         fee,
         root,
         refund,
-        relayer,
+        relayer: BigInt(relayer),
         recipient: BigInt(recipient),
-        nullifierHash: note.nullifierHash,
+        nullifierHash,
         // private
         pathIndices,
         pathElements,
-        secret: note.secret,
-        nullifier: note.nullifier
-      }
-
-      const { circuit, provingKey } = await getTornadoKeys()
-
-      if (!groth16) {
-        groth16 = await buildGroth16()
+        secret,
+        nullifier
       }
 
       console.log('Start generating SNARK proof', input)
@@ -711,31 +753,41 @@ const actions = {
         toFixedHex(input.refund)
       ]
       console.timeEnd('SNARK proof time')
-      return { args, proof }
+
+      return {
+        relayer,
+        fee,
+        proof,
+        args
+      }
     }
 
-    // Don't need to calculate or estimate relayer fee, so, return proof immediately
-    if (withdrawType !== 'relayer') return calculateSnarkProof()
+    // eslint-disable-next-line prefer-const
+    let { proof, args } = await getProof()
 
-    relayer = BigInt(rootState.relayer.selectedRelayer.address)
-    fee = BigInt(rootState.fees.withdrawalFeeViaRelayer)
-    const naiveProof = await calculateSnarkProof()
-    if (Number(note.netId) === 1) return naiveProof // Don't need to smart-estimate fee if we use V4 withdrawal
-
-    const { proof: dummyProof, args: dummyArgs } = naiveProof
     const withdrawalTx = getters.relayerWithdrawalTxData({
-      proof: dummyProof,
-      withdrawCallArgs: dummyArgs,
-      amount: note.amount,
-      currency: note.currency
+      proof,
+      withdrawCallArgs: args,
+      amount,
+      currency
     })
-    if (note.currency !== nativeCurrency) refund = BigInt(state.ethToReceive.toString())
 
-    await dispatch('fees/calculateWithdrawalFeeViaRelayer', { tx: withdrawalTx }, { root: true })
-    fee = BigInt(rootState.fees.withdrawalFeeViaRelayer)
+    gasLimit = BigInt(await web3.eth.estimateGas(withdrawalTx))
 
-    // Recalculate proof with actual fee and refund
-    return calculateSnarkProof()
+    // If required gasLimit is above default, calculate the snark proof again
+    if (gasLimit > defaultGasLimit) {
+      ;({ proof, args } = await getProof())
+
+      const withdrawalTx = getters.relayerWithdrawalTxData({
+        proof,
+        withdrawCallArgs: args,
+        amount,
+        currency
+      })
+      gasLimit = BigInt(await web3.eth.estimateGas(withdrawalTx))
+    }
+
+    return { proof, args }
   },
   async prepareWithdraw({ dispatch, commit }, { note, recipient }) {
     commit('REMOVE_PROOF', { note })
@@ -765,6 +817,7 @@ const actions = {
   },
   async withdraw({ state, rootState, rootGetters, dispatch, getters }, { note }) {
     try {
+      const web3 = getters.getWeb3
       const [, currency, amount, netId] = note.split('-')
       const config = networkConfig[`netId${netId}`]
       const { proof, args } = state.notes[note]
@@ -782,7 +835,7 @@ const actions = {
         to: contractInstance._address,
         from: ethAccount
       }
-      const gasLimit = await rootGetters['fees/oracle'].getGasLimit(incompletedTx, 'other', 20)
+      const gasLimit = Math.floor((await web3.eth.estimateGas(incompletedTx)) * 1.1)
 
       const callParams = {
         method: 'eth_sendTransaction',
@@ -923,8 +976,8 @@ const actions = {
       console.error(`Method loadWithdrawalData has error: ${e}`)
     }
   },
-  async setDefaultEthToReceive({ commit, rootGetters }, { currency }) {
-    const ethToReceive = await rootGetters['fees/oracle'].calculateRefundInETH(currency.toLowerCase())
+  setDefaultEthToReceive({ commit, rootGetters }, { gasPrice, refundGasLimit }) {
+    const ethToReceive = rootGetters['fees/oracle'].defaultEthRefund(gasPrice, refundGasLimit).toString()
     commit('SAVE_ETH_TO_RECEIVE', { ethToReceive })
     commit('SAVE_DEFAULT_ETH_TO_RECEIVE', { ethToReceive })
   },
