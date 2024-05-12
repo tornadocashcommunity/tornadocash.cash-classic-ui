@@ -179,6 +179,19 @@ export default {
         config.devtool = hasSourceMaps
       }
       config.module.rules.push({
+        test: /\.(js|cjs|mjs|jsx)$/,
+        include: /node_modules/,
+        type: 'javascript/auto',
+        use: {
+          loader: 'babel-loader',
+          options: {
+            compact: false,
+            presets: [['@babel/preset-env', { targets: 'defaults' }]],
+            plugins: []
+          }
+        }
+      })
+      config.module.rules.push({
         test: /\.bin$/,
         use: 'arraybuffer-loader'
       })
