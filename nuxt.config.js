@@ -187,7 +187,12 @@ export default {
           options: {
             compact: false,
             presets: [['@babel/preset-env', { targets: 'defaults' }]],
-            plugins: []
+            plugins: [
+              '@babel/plugin-transform-private-methods',
+              '@babel/plugin-transform-class-properties',
+              '@babel/plugin-transform-optional-chaining',
+              '@babel/plugin-transform-nullish-coalescing-operator'
+            ]
           }
         }
       })

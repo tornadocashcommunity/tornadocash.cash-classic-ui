@@ -30,7 +30,7 @@
     "@nuxtjs/moment": "^1.6.0",
     "@tornado/fixed-merkle-tree": "0.7",
     "@tornado/snarkjs": "0.1.20",
-    "@tornado/tornado-oracles": "^2.1.0",
+    "@tornado/tornado-oracles": "git+https://git.tornado.ws/tornadocontrib/tornado-oracles.git#937d65f829e044c1b649ca9305fa4d50733a6d57",
     "@tornado/websnark": "0.0.4",
     "@walletconnect/web3-provider": "1.7.8",
     "ajv": "^6.10.2",
