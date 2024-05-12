@@ -2951,9 +2951,9 @@
     keccak "^2.0.0"
     yargs "^12.0.5"
 
-"@tornado/tornado-oracles@git+https://git.tornado.ws/tornadocontrib/tornado-oracles.git#7c646dc11f5785457f64f3aba297183fb70992da":
-  version "3.3.0"
-  resolved "git+https://git.tornado.ws/tornadocontrib/tornado-oracles.git#7c646dc11f5785457f64f3aba297183fb70992da"
+"@tornado/tornado-oracles@git+https://git.tornado.ws/tornadocontrib/tornado-oracles.git#0e9fe6970d54995f00cf3dbc1cfc73d9f7365a62":
+  version "4.0.0"
+  resolved "git+https://git.tornado.ws/tornadocontrib/tornado-oracles.git#0e9fe6970d54995f00cf3dbc1cfc73d9f7365a62"
   dependencies:
     ethers "^6.4.0"
 
