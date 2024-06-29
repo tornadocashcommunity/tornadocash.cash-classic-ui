@@ -338,7 +338,6 @@ export default {
             }
             this.$store.dispatch('application/setAndUpdateStatistic', { currency, amount: Number(amount) })
             this.$store.dispatch('fees/calculateWithdrawalFeeViaRelayer', {})
-            this.$store.dispatch('loading/updateProgress', { progress: -1 })
             this.depositsPast = Number(depositsPast) <= 0 ? 0 : depositsPast
             this.depositTxHash = txHash
             this.depositTimestamp = timestamp

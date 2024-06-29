@@ -7,13 +7,6 @@ import InstanceABI from '@/abis/Instance.abi.json'
 import { CONTRACT_INSTANCES, eventsType, httpConfig } from '@/constants'
 import { sleep, flattenNArray, formatEvents, capitalizeFirstLetter } from '@/utils'
 
-let store
-if (process.browser) {
-  window.onNuxtReady(({ $store }) => {
-    store = $store
-  })
-}
-
 class EventService {
   constructor({ netId, amount, currency, factoryMethods }) {
     this.idb = window.$nuxt.$indexedDB(netId)
@@ -34,15 +27,6 @@ class EventService {
 
   getInstanceName(type) {
     return `${type}s_${this.netId}_${this.currency}_${this.amount}`
-  }
-
-  updateEventProgress(percentage, type) {
-    if (store) {
-      store.dispatch('loading/updateProgress', {
-        message: `Fetching past ${type} events`,
-        progress: Math.ceil(percentage * 100)
-      })
-    }
   }
 
   async getEvents(type) {
@@ -345,8 +329,6 @@ class EventService {
       const batchCount = Math.ceil(batchDigest / batchSize)
 
       if (fromBlock < currentBlockNumber) {
-        this.updateEventProgress(0, type)
-
         for (let batchIndex = 0; batchIndex < batchCount; batchIndex++) {
           const isLastBatch = batchIndex === batchCount - 1
           const params = new Array(batchSize).fill('').map((_, i) => {
@@ -361,8 +343,6 @@ class EventService {
           failed = failed.concat(requests.filter((e) => e.isFailedBatch))
           lastBlock = params[batchSize - 1].toBlock
 
-          const progressIndex = batchIndex - failed.length / batchSize
-
           if (isLastBatch && failed.length !== 0) {
             const failedBatch = await Promise.all(this.createBatchRequest(failed))
             const failedReqs = flattenNArray(failedBatch)
@@ -374,7 +354,6 @@ class EventService {
               throw new Error('Failed to batch events')
             }
           }
-          this.updateEventProgress(progressIndex / batchCount, type)
         }
 
         return {
