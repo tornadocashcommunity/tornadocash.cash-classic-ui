@@ -32,7 +32,6 @@ jobs:
       - name: Build
         run: yarn generate
         env:
-          CHAINNODES_KEY: ${{ secrets.CHAINNODES_KEY }}
           WC_BRIDGE: ${{ secrets.WC_BRIDGE }}
           OLD_STORE_NAME: ${{ secrets.OLD_STORE_NAME }}
           STORE_NAME: ${{ secrets.STORE_NAME }}

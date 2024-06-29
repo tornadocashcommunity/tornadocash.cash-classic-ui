@@ -25,10 +25,6 @@ export default {
         name: 'Tornado RPC',
         url: 'https://tornadocash-rpc.com/mainnet'
       },
-      chainnodes: {
-        name: 'Chainnodes RPC',
-        url: 'https://mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
-      },
       mevblockerRPC: {
         name: 'MevblockerRPC',
         url: 'https://rpc.mevblocker.io'
@@ -152,10 +148,6 @@ export default {
         name: 'Tornado RPC',
         url: 'https://tornadocash-rpc.com/bsc'
       },
-      chainnodes: {
-        name: 'Chainnodes RPC',
-        url: 'https://bsc-mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
-      },
       oneRPC: {
         name: '1RPC',
         url: 'https://1rpc.io/bnb'
@@ -203,10 +195,6 @@ export default {
     multicall: '0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507',
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     rpcUrls: {
-      chainnodes: {
-        name: 'Chainnodes RPC',
-        url: 'https://polygon-mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
-      },
       oneRpc: {
         name: '1RPC',
         url: 'https://1rpc.io/matic'
@@ -259,10 +247,6 @@ export default {
         name: 'Tornado RPC',
         url: 'https://tornadocash-rpc.com/op'
       },
-      chainnodes: {
-        name: 'Chainnodes RPC',
-        url: 'https://optimism-mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
-      },
       oneRpc: {
         name: '1RPC',
         url: 'https://1rpc.io/op'
@@ -310,14 +294,6 @@ export default {
     multicall: '0x842eC2c7D803033Edf55E478F461FC547Bc54EB2',
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     rpcUrls: {
-      tornadoRPC: {
-        name: 'Tornado RPC',
-        url: 'https://tornadocash-rpc.com/arbitrum'
-      },
-      chainnodes: {
-        name: 'Chainnodes RPC',
-        url: 'https://arbitrum-one.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
-      },
       oneRpc: {
         name: '1rpc',
         url: 'https://1rpc.io/arb'
@@ -372,10 +348,6 @@ export default {
       tornadoRPC: {
         name: 'Tornado RPC',
         url: 'https://tornadocash-rpc.com/gnosis'
-      },
-      chainnodes: {
-        name: 'Chainnodes RPC',
-        url: 'https://gnosis-mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
       },
       blockPi: {
         name: 'BlockPi',
@@ -486,10 +458,6 @@ export default {
       sepolia: {
         name: 'Sepolia RPC',
         url: 'https://rpc.sepolia.org'
-      },
-      chainnodes: {
-        name: 'Chainnodes RPC',
-        url: 'https://sepolia.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
       }
     },
     tokens: {
