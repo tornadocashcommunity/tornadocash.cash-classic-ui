@@ -64,7 +64,7 @@ export default {
   },
   created() {
     this.checkRecoveryKey()
-    this.newNotify()
+    // this.newNotify()
     this.$store.dispatch('fees/setDefaultGasPrice')
   },
   mounted() {
@@ -125,6 +125,7 @@ export default {
         width: 440
       })
     },
+    /**
     newNotify() {
       const hasNotify = window.localStorage.getItem('hasNotify')
 
@@ -144,6 +145,7 @@ export default {
         window.localStorage.setItem('hasNotify', true)
       }
     },
+    **/
     handleOpenModal() {
       const recoveryKey = this.$sessionStorage.getItem(this.accounts.encrypt)
       if (recoveryKey) {
