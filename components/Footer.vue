@@ -53,7 +53,7 @@
                 <b-button
                   tag="a"
                   type="is-icon"
-                  href="https://github.com/tornadocash"
+                  href="https://github.com/tornadocashcommunity"
                   target="_blank"
                   rel="noopener noreferrer"
                   icon-right="github"

@@ -18,8 +18,8 @@
         </template>
         <template v-slot:description>{{ notice.description }}</template>
       </i18n>
-      <a v-if="notice.nova" href="https://nova.tornado.ws/" target="_blank" rel="noopener noreferrer">
-        Tornado Cash Nova
+      <a v-if="notice.nova" href="https://nova.tornadocash.cash/" target="_blank" rel="noopener noreferrer">
+        Tornado Cash Nova No Longer Available
       </a>
       <a
         v-if="notice.txHash"
