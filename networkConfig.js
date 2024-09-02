@@ -21,10 +21,10 @@ export default {
     networkName: 'Ethereum Mainnet',
     deployedBlock: 9116966,
     rpcUrls: {
-      tornadoRPC: {
-        name: 'Tornado RPC',
-        url: 'https://tornadocash-rpc.com/mainnet'
-      },
+      // tornadoRPC: {
+      //   name: 'Tornado RPC',
+      //   url: 'https://tornadocash-rpc.com/mainnet'
+      // },
       chainnodes: {
         name: 'Chainnodes RPC',
         url: 'https://mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
@@ -80,27 +80,27 @@ export default {
       },
       /**
        * Instances frozen due to sanctions
-      usdc: {
-        instanceAddress: {
-          '100': '0xd96f2B1c14Db8458374d9Aca76E26c3D18364307',
-          '1000': '0x4736dCf1b7A3d580672CcE6E7c65cd5cc9cFBa9D'
-        },
-        tokenAddress: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-        symbol: 'USDC',
-        decimals: 6,
-        gasLimit: '80000'
-      },
-      usdt: {
-        instanceAddress: {
-          '100': '0x169AD27A470D064DEDE56a2D3ff727986b15D52B',
-          '1000': '0x0836222F2B2B24A3F36f98668Ed8F0B38D1a872f'
-        },
-        tokenAddress: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-        symbol: 'USDT',
-        decimals: 6,
-        gasLimit: '100000'
-      },
-      **/
+       usdc: {
+       instanceAddress: {
+       '100': '0xd96f2B1c14Db8458374d9Aca76E26c3D18364307',
+       '1000': '0x4736dCf1b7A3d580672CcE6E7c65cd5cc9cFBa9D'
+       },
+       tokenAddress: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+       symbol: 'USDC',
+       decimals: 6,
+       gasLimit: '80000'
+       },
+       usdt: {
+       instanceAddress: {
+       '100': '0x169AD27A470D064DEDE56a2D3ff727986b15D52B',
+       '1000': '0x0836222F2B2B24A3F36f98668Ed8F0B38D1a872f'
+       },
+       tokenAddress: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+       symbol: 'USDT',
+       decimals: 6,
+       gasLimit: '100000'
+       },
+       **/
       wbtc: {
         instanceAddress: {
           '0.1': '0x178169B423a011fff22B9e3F3abeA13414dDD0F1',
@@ -148,10 +148,10 @@ export default {
     multicall: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     rpcUrls: {
-      tornadoRPC: {
-        name: 'Tornado RPC',
-        url: 'https://tornadocash-rpc.com/bsc'
-      },
+      // tornadoRPC: {
+      //   name: 'Tornado RPC',
+      //   url: 'https://tornadocash-rpc.com/bsc'
+      // },
       chainnodes: {
         name: 'Chainnodes RPC',
         url: 'https://bsc-mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
@@ -255,10 +255,10 @@ export default {
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     ovmGasPriceOracleContract: '0x420000000000000000000000000000000000000F',
     rpcUrls: {
-      tornadoRPC: {
-        name: 'Tornado RPC',
-        url: 'https://tornadocash-rpc.com/op'
-      },
+      // tornadoRPC: {
+      //   name: 'Tornado RPC',
+      //   url: 'https://tornadocash-rpc.com/op'
+      // },
       chainnodes: {
         name: 'Chainnodes RPC',
         url: 'https://optimism-mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
@@ -310,10 +310,10 @@ export default {
     multicall: '0x842eC2c7D803033Edf55E478F461FC547Bc54EB2',
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     rpcUrls: {
-      tornadoRPC: {
-        name: 'Tornado RPC',
-        url: 'https://tornadocash-rpc.com/arbitrum'
-      },
+      // tornadoRPC: {
+      //   name: 'Tornado RPC',
+      //   url: 'https://tornadocash-rpc.com/arbitrum'
+      // },
       chainnodes: {
         name: 'Chainnodes RPC',
         url: 'https://arbitrum-one.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
@@ -369,10 +369,10 @@ export default {
     multicall: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
     echoContractAccount: '0xa75BF2815618872f155b7C4B0C81bF990f5245E4',
     rpcUrls: {
-      tornadoRPC: {
-        name: 'Tornado RPC',
-        url: 'https://tornadocash-rpc.com/gnosis'
-      },
+      // tornadoRPC: {
+      //   name: 'Tornado RPC',
+      //   url: 'https://tornadocash-rpc.com/gnosis'
+      // },
       chainnodes: {
         name: 'Chainnodes RPC',
         url: 'https://gnosis-mainnet.chainnodes.org/d692ae63-0a7e-43e0-9da9-fe4f4cc6c607'
@@ -479,10 +479,10 @@ export default {
     echoContractAccount: '0xcDD1fc3F5ac2782D83449d3AbE80D6b7B273B0e5',
     aggregatorContract: '0x4088712AC9fad39ea133cdb9130E465d235e9642',
     rpcUrls: {
-      tornadoRPC: {
-        name: 'Tornado RPC',
-        url: 'https://tornadocash-rpc.com/sepolia'
-      },
+      // tornadoRPC: {
+      //   name: 'Tornado RPC',
+      //   url: 'https://tornadocash-rpc.com/sepolia'
+      // },
       sepolia: {
         name: 'Sepolia RPC',
         url: 'https://rpc.sepolia.org'
