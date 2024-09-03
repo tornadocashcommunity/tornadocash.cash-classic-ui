@@ -27,7 +27,7 @@ export default {
       // },
       chainnodes: {
         name: 'Chainnodes RPC',
-        url: 'https://mainnet.chainnodes.org/9e224b3f-439d-4018-9e4f-14aa7c8ff306'
+        url: 'https://mainnet.chainnodes.org/50c2ebd7-ac9f-4a98-ba41-b51560cae83f'
       },
       mevblockerRPC: {
         name: 'MevblockerRPC',
@@ -154,7 +154,7 @@ export default {
       // },
       chainnodes: {
         name: 'Chainnodes RPC',
-        url: 'https://bsc-mainnet.chainnodes.org/9e224b3f-439d-4018-9e4f-14aa7c8ff306'
+        url: 'https://bsc-mainnet.chainnodes.org/50c2ebd7-ac9f-4a98-ba41-b51560cae83f'
       },
       oneRPC: {
         name: '1RPC',
@@ -205,7 +205,7 @@ export default {
     rpcUrls: {
       chainnodes: {
         name: 'Chainnodes RPC',
-        url: 'https://polygon-mainnet.chainnodes.org/9e224b3f-439d-4018-9e4f-14aa7c8ff306'
+        url: 'https://polygon-mainnet.chainnodes.org/50c2ebd7-ac9f-4a98-ba41-b51560cae83f'
       },
       oneRpc: {
         name: '1RPC',
@@ -261,7 +261,7 @@ export default {
       // },
       chainnodes: {
         name: 'Chainnodes RPC',
-        url: 'https://optimism-mainnet.chainnodes.org/9e224b3f-439d-4018-9e4f-14aa7c8ff306'
+        url: 'https://optimism-mainnet.chainnodes.org/50c2ebd7-ac9f-4a98-ba41-b51560cae83f'
       },
       oneRpc: {
         name: '1RPC',
@@ -316,7 +316,7 @@ export default {
       // },
       chainnodes: {
         name: 'Chainnodes RPC',
-        url: 'https://arbitrum-one.chainnodes.org/9e224b3f-439d-4018-9e4f-14aa7c8ff306'
+        url: 'https://arbitrum-one.chainnodes.org/50c2ebd7-ac9f-4a98-ba41-b51560cae83f'
       },
       oneRpc: {
         name: '1rpc',
@@ -375,7 +375,7 @@ export default {
       // },
       chainnodes: {
         name: 'Chainnodes RPC',
-        url: 'https://gnosis-mainnet.chainnodes.org/9e224b3f-439d-4018-9e4f-14aa7c8ff306'
+        url: 'https://gnosis-mainnet.chainnodes.org/50c2ebd7-ac9f-4a98-ba41-b51560cae83f'
       },
       blockPi: {
         name: 'BlockPi',
@@ -489,7 +489,7 @@ export default {
       },
       chainnodes: {
         name: 'Chainnodes RPC',
-        url: 'https://sepolia.chainnodes.org/9e224b3f-439d-4018-9e4f-14aa7c8ff306'
+        url: 'https://sepolia.chainnodes.org/50c2ebd7-ac9f-4a98-ba41-b51560cae83f'
       }
     },
     tokens: {
